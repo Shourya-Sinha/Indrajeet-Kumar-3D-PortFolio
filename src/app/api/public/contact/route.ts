@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ensureDatabaseSeeded } from "@/lib/db/seed";
-import { createOne, findOne } from "@/lib/db/repository";
+import { createOne } from "@/lib/db/repository";
 import { checkRateLimit, getClientIp, hashIp } from "@/lib/auth/security";
 import { contactInquirySchema } from "@/lib/validation/schemas";
-import { sendInquiryNotification } from "@/lib/email/mailer";
+import { DEFAULT_INQUIRY_EMAIL, sendInquiryNotification } from "@/lib/email/mailer";
 
 export async function POST(req: NextRequest) {
   await ensureDatabaseSeeded();
@@ -33,11 +33,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const settings = await findOne("siteSettings", { settingsKey: "primary" });
   const adminRecipient =
-    process.env.ADMIN_NOTIFICATION_EMAIL?.trim() ||
-    settings?.contactEmail ||
-    "Krindrajeet.c@gmail.com";
+    process.env.ADMIN_NOTIFICATION_EMAIL?.trim() || DEFAULT_INQUIRY_EMAIL;
 
   const delivery = await sendInquiryNotification({
     ...parsed.data,
