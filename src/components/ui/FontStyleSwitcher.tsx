@@ -136,10 +136,10 @@ export function FontStyleSwitcher({ compact = false }: { compact?: boolean }) {
         aria-expanded={open}
         aria-label="Change portfolio font style"
         title="Switch typography preset"
-        className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition-all duration-200 ${
+        className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-2 text-[11px] font-medium transition-all duration-200 xl:text-xs ${
           open
-            ? "border-cyan-400/60 bg-cyan-400/15 text-cyan-200 shadow-[0_4px_0_rgba(0,229,255,0.35),0_0_20px_rgba(0,229,255,0.25)]"
-            : "border-white/15 bg-white/[0.05] text-slate-200 shadow-[0_4px_0_rgba(5,8,16,0.9)] hover:-translate-y-0.5 hover:border-cyan-400/50 hover:text-cyan-200"
+            ? "border-white/30 bg-white/10 text-cyan-300"
+            : "border-white/15 bg-white/[0.04] text-slate-200 hover:border-white/30 hover:text-white"
         } ${compact ? "w-full justify-between" : ""}`}
       >
         <span className="inline-flex items-center gap-1.5">
@@ -157,7 +157,7 @@ export function FontStyleSwitcher({ compact = false }: { compact?: boolean }) {
         <div
           role="menu"
           aria-label="Font presets"
-          className={`glass-panel holo-border-glow z-[70] mt-2 w-64 rounded-2xl p-2 shadow-[0_24px_60px_rgba(0,0,0,0.85)] ${
+          className={`glass-panel z-[70] mt-2 w-64 rounded-2xl border border-white/15 p-2 shadow-[0_24px_60px_rgba(0,0,0,0.85)] ${
             compact ? "static w-full" : "absolute right-0"
           }`}
         >

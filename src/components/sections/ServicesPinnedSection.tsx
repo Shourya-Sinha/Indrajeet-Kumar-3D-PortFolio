@@ -214,7 +214,7 @@ export function ServicesPinnedSection({
                     <button
                       type="button"
                       onClick={() => handleRequest(active.title)}
-                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-2.5 text-xs font-bold text-slate-950 shadow-[0_4px_0_rgba(14,116,144,0.7),0_0_25px_rgba(0,229,255,0.28)] transition hover:-translate-y-0.5 hover:brightness-110"
+                      className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-bold text-slate-950 transition hover:bg-cyan-300"
                     >
                       {active.ctaLabel || "Request Service"}
                       <ArrowRight className="h-3.5 w-3.5" />
@@ -222,7 +222,7 @@ export function ServicesPinnedSection({
                     <button
                       type="button"
                       onClick={() => setExpandedDetail((v) => !v)}
-                      className="rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-semibold text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-400/40"
+                      className="rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-semibold text-slate-200 transition hover:border-white/35"
                     >
                       {expandedDetail ? "Hide Directory" : "Learn More / All 17"}
                     </button>
@@ -233,8 +233,8 @@ export function ServicesPinnedSection({
 
             {/* Right: Synchronized 3D Visual + Interactive Tilt Stage */}
             <div className="space-y-4 lg:col-span-6">
-              <TiltCard3D maxTilt={9} depth={22} glowAccent="violet">
-                <div className="holo-border-glow glass-panel glass-panel-hover preserve-3d relative h-[320px] overflow-hidden rounded-3xl sm:h-[400px]">
+              <TiltCard3D maxTilt={8} depth={18} glowAccent="violet">
+                <div className="glass-panel glass-panel-hover preserve-3d relative h-[320px] overflow-hidden rounded-3xl sm:h-[400px]">
                   <img
                     src={active.imageUrl}
                     alt={active.imageAlt}

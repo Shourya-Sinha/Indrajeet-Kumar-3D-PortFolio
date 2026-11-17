@@ -128,9 +128,9 @@ export function ExperienceTimelineSection({
         </div>
 
         {/* Interactive 3D Globe Stage + Floating Milestone Card */}
-        <div className="holo-border-glow glass-panel relative mt-12 overflow-hidden rounded-3xl p-4 sm:p-6 lg:p-8">
-          <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-rose-500/12 blur-[120px]" />
-          <div className="pointer-events-none absolute -bottom-24 right-0 h-80 w-80 rounded-full bg-cyan-500/12 blur-[130px]" />
+        <div className="glass-panel relative mt-12 overflow-hidden rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-rose-500/8 blur-[120px]" />
+          <div className="pointer-events-none absolute -bottom-24 right-0 h-80 w-80 rounded-full bg-cyan-500/8 blur-[130px]" />
 
           <div className="grid items-center gap-8 lg:grid-cols-12">
             {/* Left/Center: Live Interactive 3D Globe */}
