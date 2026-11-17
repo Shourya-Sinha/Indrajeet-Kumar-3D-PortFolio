@@ -27,8 +27,8 @@ export function CertificationsSection({
             />
           </div>
           <div className="lg:col-span-5">
-            <TiltCard3D maxTilt={10} depth={20} floatIdle>
-              <div className="holo-border-glow glass-panel overflow-hidden rounded-2xl p-2">
+            <TiltCard3D maxTilt={8} depth={16}>
+              <div className="glass-panel overflow-hidden rounded-2xl p-2">
                 <img
                   src="/assets/visuals/section-certifications.webp"
                   alt="3D holographic certificate gallery vault"
@@ -45,11 +45,11 @@ export function CertificationsSection({
           {certifications.map((cert, idx) => {
             const isCyanTheme = idx % 2 === 0;
             const frameGlow = isCyanTheme
-              ? "border-cyan-400/50 shadow-[0_0_40px_rgba(0,229,255,0.22),inset_0_0_24px_rgba(0,229,255,0.08)]"
-              : "border-amber-400/45 shadow-[0_0_40px_rgba(245,158,11,0.18),inset_0_0_24px_rgba(147,51,234,0.1)]";
+              ? "border-white/15 hover:border-cyan-400/35"
+              : "border-white/15 hover:border-amber-400/35";
             const accentBadge = isCyanTheme
-              ? "border-cyan-400/40 bg-cyan-400/12 text-cyan-300"
-              : "border-amber-400/40 bg-amber-400/12 text-amber-300";
+              ? "border-cyan-400/30 bg-cyan-400/10 text-cyan-300"
+              : "border-amber-400/30 bg-amber-400/10 text-amber-300";
 
             return (
               <div key={cert._id} data-3d-card className="flex flex-col items-center">

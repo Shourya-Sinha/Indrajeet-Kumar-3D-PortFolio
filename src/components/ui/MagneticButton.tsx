@@ -53,11 +53,11 @@ export function MagneticButton({
 
   const variants = {
     primary:
-      "bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-slate-950 shadow-[0_6px_0_rgba(14,116,144,0.65),0_12px_32px_rgba(0,229,255,0.34)] hover:shadow-[0_8px_0_rgba(14,116,144,0.8),0_16px_44px_rgba(0,229,255,0.52)]",
+      "bg-white text-slate-950 shadow-[0_14px_32px_rgba(0,0,0,0.45)] hover:bg-cyan-300",
     secondary:
-      "glass-panel text-slate-100 hover:border-cyan-400/50 hover:text-cyan-200",
+      "border border-white/20 bg-white/[0.04] text-white hover:border-white/45 hover:bg-white/[0.08]",
     ghost:
-      "border border-white/15 bg-white/[0.04] text-slate-200 shadow-[0_4px_0_rgba(15,23,42,0.7)] hover:bg-white/[0.09] hover:border-cyan-400/40",
+      "border border-white/12 bg-transparent text-slate-300 hover:border-white/35 hover:text-white",
   };
 
   const merged = `${baseStyles} ${variants[variant]} ${className}`;
