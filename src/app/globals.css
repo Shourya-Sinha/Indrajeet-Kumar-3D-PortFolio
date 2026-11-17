@@ -4,14 +4,14 @@
 
 :root {
   --bg-void: #040508;
-  --bg-graphite: #0a0d14;
-  --bg-carbon: #111620;
+  --bg-graphite: #0e121a;
+  --bg-carbon: #151b26;
   --accent-cyan: #00e5ff;
   --accent-blue: #2563eb;
   --accent-violet: #9333ea;
   --accent-rose: #f43f5e;
   --accent-gold: #f59e0b;
-  --glow-intensity: 0.7;
+  --glow-intensity: 0.8;
   --font-display: "Syne", "Orbitron", system-ui, sans-serif;
   --font-cyber: "Orbitron", "Syne", system-ui, sans-serif;
   --font-sans: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
@@ -24,7 +24,7 @@
 
 html {
   background-color: var(--bg-void);
-  color: #f2f4f8;
+  color: #f4f7fb;
   scroll-behavior: smooth;
   overflow-x: clip;
 }
@@ -33,7 +33,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--bg-void);
-  color: #e6ebf2;
+  color: #e8eef7;
   font-family: var(--font-sans);
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
@@ -66,15 +66,18 @@ pre,
   font-family: var(--font-mono) !important;
 }
 
-/* Architectural Smoked Obsidian Surfaces (Restrained, High-Craft Material) */
+/* Liquid Glass & Machined 3D Slab Surfaces with Multi-Hue Rim */
 .glass-panel {
-  background: linear-gradient(165deg, rgba(16, 20, 29, 0.72) 0%, rgba(7, 9, 14, 0.88) 100%);
-  backdrop-filter: blur(20px) saturate(120%);
-  -webkit-backdrop-filter: blur(20px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(155deg, rgba(21, 27, 38, 0.78) 0%, rgba(8, 11, 18, 0.9) 100%);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 20px 50px rgba(0, 0, 0, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 229, 255, 0.12),
+    0 10px 0 -4px rgba(7, 10, 17, 0.94),
+    0 11px 0 -4px rgba(0, 229, 255, 0.2),
+    0 28px 68px rgba(0, 0, 0, 0.68);
 }
 
 .glass-panel-hover {
@@ -85,14 +88,17 @@ pre,
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(0, 229, 255, 0.5);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 28px 64px rgba(0, 0, 0, 0.65),
-    0 0 36px rgba(0, 229, 255, 0.07);
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    inset 0 -1px 0 rgba(244, 63, 94, 0.22),
+    0 14px 0 -4px rgba(5, 8, 15, 0.96),
+    0 15px 0 -4px rgba(0, 229, 255, 0.4),
+    0 32px 84px rgba(0, 229, 255, 0.16),
+    0 22px 58px rgba(147, 51, 234, 0.14);
 }
 
-/* Brushed Anodized Titanium Rim */
+/* Holographic Animated Border Aura */
 .holo-border-glow {
   position: relative;
 }
@@ -104,14 +110,15 @@ pre,
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(
-    130deg,
-    rgba(255, 255, 255, 0.2),
-    rgba(0, 229, 255, 0.28),
-    rgba(255, 255, 255, 0.06),
-    rgba(147, 51, 234, 0.2)
+    125deg,
+    rgba(0, 229, 255, 0.65),
+    rgba(37, 99, 235, 0.45),
+    rgba(147, 51, 234, 0.55),
+    rgba(244, 63, 94, 0.45),
+    rgba(245, 158, 11, 0.4)
   );
-  background-size: 200% 200%;
-  animation: holoShimmer 10s ease infinite;
+  background-size: 250% 250%;
+  animation: holoShimmer 8s ease infinite;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -144,15 +151,15 @@ pre,
 }
 
 .depth-z-1 {
-  transform: translateZ(14px);
+  transform: translateZ(16px);
 }
 
 .depth-z-2 {
-  transform: translateZ(26px);
+  transform: translateZ(30px);
 }
 
 .depth-z-3 {
-  transform: translateZ(40px);
+  transform: translateZ(46px);
 }
 
 @media (hover: none) {
@@ -164,26 +171,29 @@ pre,
 }
 
 .chrome-text {
-  background: linear-gradient(135deg, #ffffff 0%, #e4eaf2 52%, #97a3b6 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e0ecff 42%, #8fa3bf 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 10px 26px rgba(0, 229, 255, 0.14));
 }
 
 .cyber-text-gradient {
-  background: linear-gradient(125deg, #ffffff 0%, #e8eef5 58%, #7be8ff 100%);
+  background: linear-gradient(100deg, #ffffff 0%, #7deeff 38%, #a855f7 72%, #fb7185 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 14px 36px rgba(0, 229, 255, 0.22));
 }
 
 .bg-ambient-grid {
   background-image:
-    radial-gradient(circle at 20% 10%, rgba(0, 229, 255, 0.045), transparent 42%),
-    radial-gradient(circle at 80% 30%, rgba(147, 51, 234, 0.04), transparent 45%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 64px 64px, 64px 64px;
+    radial-gradient(circle at 18% 12%, rgba(0, 229, 255, 0.08), transparent 40%),
+    radial-gradient(circle at 82% 24%, rgba(147, 51, 234, 0.08), transparent 42%),
+    radial-gradient(circle at 50% 80%, rgba(244, 63, 94, 0.05), transparent 48%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 56px 56px, 56px 56px;
 }
 
 /* 3D Keyframe Choreography */
@@ -205,7 +215,7 @@ pre,
 @keyframes flip3DIn {
   0% {
     opacity: 0;
-    transform: perspective(1200px) rotateX(12deg) rotateY(-8deg) translateZ(-32px) scale(0.96);
+    transform: perspective(1200px) rotateX(15deg) rotateY(-11deg) translateZ(-44px) scale(0.94);
   }
   100% {
     opacity: 1;
@@ -214,21 +224,21 @@ pre,
 }
 
 .animate-3d-flip {
-  animation: flip3DIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: flip3DIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes float3DIdle {
   0%,
   100% {
-    transform: perspective(1200px) translateY(0px) rotateX(1.5deg) rotateY(-2deg);
+    transform: perspective(1200px) translateY(0px) rotateX(2deg) rotateY(-3deg);
   }
   50% {
-    transform: perspective(1200px) translateY(-8px) rotateX(-1.5deg) rotateY(2deg);
+    transform: perspective(1200px) translateY(-10px) rotateX(-2.5deg) rotateY(3.5deg);
   }
 }
 
 .animate-float-3d {
-  animation: float3DIdle 8s ease-in-out infinite;
+  animation: float3DIdle 7s ease-in-out infinite;
   transform-style: preserve-3d;
 }
 
@@ -242,8 +252,21 @@ pre,
 }
 
 .animate-spin-prism {
-  animation: spinPrism3D 16s linear infinite;
+  animation: spinPrism3D 14s linear infinite;
   transform-style: preserve-3d;
+}
+
+@keyframes scanBeam {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.animate-scan-beam {
+  animation: scanBeam 2.8s linear infinite;
 }
 
 /* CSS 3D Isometric Cube Widget */
@@ -255,24 +278,25 @@ pre,
 .cube-face {
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: linear-gradient(135deg, rgba(0, 229, 255, 0.16), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(0, 229, 255, 0.52);
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(147, 51, 234, 0.18));
+  box-shadow: inset 0 0 14px rgba(0, 229, 255, 0.25);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #040508;
+  background: #06080d;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1d2330;
+  background: #1f2735;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #364156;
+  background: #00e5ff66;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -282,6 +306,7 @@ pre,
   .animate-float-3d,
   .animate-spin-prism,
   .animate-3d-flip,
+  .animate-scan-beam,
   .holo-border-glow::before {
     animation: none !important;
   }
