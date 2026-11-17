@@ -106,10 +106,10 @@ export function Navbar({
               </span>
             </span>
             <div className="depth-z-1">
-              <div className="font-display text-sm font-bold tracking-[0.14em] text-white transition group-hover:text-cyan-200">
+              <div className="font-cyber text-xs font-bold tracking-[0.18em] text-white transition group-hover:text-cyan-200 sm:text-sm">
                 {settings.brandName}
               </div>
-              <div className="text-[10px] tracking-[0.16em] text-cyan-300/85">
+              <div className="font-mono text-[10px] tracking-[0.16em] text-cyan-300/85">
                 ({settings.alternateName})
               </div>
             </div>

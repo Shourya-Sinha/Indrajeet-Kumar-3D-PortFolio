@@ -201,12 +201,12 @@ export function ServicesPinnedSection({
             {/* Right: Synchronized 3D Visual + Interactive Tilt Stage */}
             <div className="space-y-4 lg:col-span-6">
               <TiltCard3D maxTilt={9} depth={22} glowAccent="violet">
-                <div className="glass-panel glass-panel-hover preserve-3d relative h-[320px] overflow-hidden rounded-3xl sm:h-[400px]">
+                <div className="holo-border-glow glass-panel glass-panel-hover preserve-3d relative h-[320px] overflow-hidden rounded-3xl sm:h-[400px]">
                   <img
                     key={active.imageUrl}
                     src={active.imageUrl}
                     alt={active.imageAlt}
-                    className="absolute inset-0 h-full w-full object-cover opacity-35 transition-opacity duration-500"
+                    className="absolute inset-0 h-full w-full object-cover opacity-50 transition-opacity duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050608] via-transparent to-[#050608]/50" />
                   <div className="relative z-10 h-full w-full">

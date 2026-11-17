@@ -86,12 +86,15 @@ function ServicesMorphRig({
             {shapeVariant === 2 && <icosahedronGeometry args={[1.18, 0]} />}
             {shapeVariant === 3 && <dodecahedronGeometry args={[1.15, 0]} />}
             <meshPhysicalMaterial
-              color="#e2ecfa"
+              color="#19243b"
               metalness={0.95}
-              roughness={0.09}
+              roughness={0.07}
               clearcoat={1}
-              clearcoatRoughness={0.06}
-              envMapIntensity={2.1}
+              clearcoatRoughness={0.05}
+              iridescence={1}
+              iridescenceIOR={1.75}
+              iridescenceThicknessRange={[150, 680]}
+              envMapIntensity={2.4}
             />
           </mesh>
 

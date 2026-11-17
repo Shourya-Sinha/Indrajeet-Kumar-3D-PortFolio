@@ -92,9 +92,9 @@ export function HeroSection({
           </div>
 
           <div data-hero-reveal className="space-y-1.5">
-            <div className="font-display text-base font-bold tracking-[0.24em] text-cyan-300 sm:text-lg">
+            <div className="font-cyber text-base font-bold tracking-[0.22em] text-cyan-300 sm:text-lg">
               {hero.primaryName}
-              <span className="ml-2.5 text-xs font-medium tracking-[0.16em] text-slate-300 sm:text-sm">
+              <span className="ml-2.5 font-mono text-xs font-medium tracking-[0.16em] text-slate-300 sm:text-sm">
                 ({hero.alternateName})
               </span>
             </div>
@@ -167,9 +167,9 @@ export function HeroSection({
 
         {/* Right: Dedicated Unobstructed Interactive 3D WebGL Viewport */}
         <div data-hero-reveal className="lg:col-span-6">
-          <div className="glass-panel relative h-[380px] overflow-hidden rounded-3xl border border-cyan-400/25 sm:h-[480px] lg:h-[520px]">
-            {/* Crisp studio gradient framing */}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(0,229,255,0.14),rgba(139,92,246,0.08)_45%,transparent_75%)]" />
+          <div className="holo-border-glow glass-panel relative h-[380px] overflow-hidden rounded-3xl border border-cyan-400/25 sm:h-[480px] lg:h-[520px]">
+            {/* Crisp studio gradient framing matching obsidian-cyan-violet-rose palette */}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_46%_42%,rgba(0,229,255,0.16),rgba(147,51,234,0.11)_44%,rgba(244,63,94,0.06)_66%,transparent_80%)]" />
 
             {/* Live Interactive 3D Gyroscope Core */}
             <div className="relative z-10 h-full w-full cursor-grab active:cursor-grabbing">
