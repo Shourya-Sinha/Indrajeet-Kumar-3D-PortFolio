@@ -12,6 +12,10 @@
   --accent-rose: #f43f5e;
   --accent-gold: #f59e0b;
   --glow-intensity: 0.8;
+  --font-display: "Syne", "Orbitron", system-ui, sans-serif;
+  --font-cyber: "Orbitron", "Syne", system-ui, sans-serif;
+  --font-sans: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 * {
@@ -22,6 +26,7 @@ html {
   background-color: var(--bg-void);
   color: #f4f7fb;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -29,8 +34,8 @@ body {
   min-height: 100vh;
   background-color: var(--bg-void);
   color: #e8eef7;
-  font-family: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  font-family: var(--font-sans);
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -38,26 +43,27 @@ h1,
 h2,
 h3,
 .font-display {
-  font-family: "Syne", "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-display) !important;
 }
 
 .font-cyber {
-  font-family: "Orbitron", "Syne", system-ui, sans-serif;
+  font-family: var(--font-cyber) !important;
   letter-spacing: 0.08em;
 }
 
 .font-heading {
-  font-family: "Syne", "Outfit", system-ui, sans-serif;
+  font-family: var(--font-display) !important;
 }
 
+.font-sans,
 .font-jakarta {
-  font-family: "Outfit", system-ui, sans-serif;
+  font-family: var(--font-sans) !important;
 }
 
 code,
 pre,
 .font-mono {
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-family: var(--font-mono) !important;
 }
 
 /* Liquid Glass & Machined 3D Slab Surfaces with Multi-Hue Rim */

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useRef } from "react";
+import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Float, OrbitControls, Sparkles } from "@react-three/drei";
+import { Float, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { SafeCanvas } from "./SafeCanvas";
 
@@ -15,18 +15,14 @@ interface HeroSceneProps {
 
 function ArchitecturalGyroCore({
   scrollProgressRef,
-  particleCount = 140,
   rotationSpeed = 0.28,
 }: HeroSceneProps) {
   const assemblyRef = useRef<THREE.Group>(null);
   const coreKnotRef = useRef<THREE.Mesh>(null);
   const innerReactorRef = useRef<THREE.Mesh>(null);
-  const cageRef = useRef<THREE.Mesh>(null);
-  const ringOuterRef = useRef<THREE.Group>(null);
-  const ringMidRef = useRef<THREE.Group>(null);
-  const ringInnerRef = useRef<THREE.Group>(null);
-
-  const satelliteAngles = useMemo(() => [0, Math.PI / 2, Math.PI, (Math.PI * 3) / 2], []);
+  const ringOuterRef = useRef<THREE.Mesh>(null);
+  const ringMidRef = useRef<THREE.Mesh>(null);
+  const ringInnerRef = useRef<THREE.Mesh>(null);
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
@@ -45,11 +41,6 @@ function ArchitecturalGyroCore({
       innerReactorRef.current.rotation.y -= delta * 0.65;
       const pulse = 1 + Math.sin(t * 2.2) * 0.06;
       innerReactorRef.current.scale.setScalar(pulse);
-    }
-
-    if (cageRef.current) {
-      cageRef.current.rotation.y -= delta * 0.2;
-      cageRef.current.rotation.z += delta * 0.12;
     }
 
     if (ringOuterRef.current) {
@@ -78,7 +69,7 @@ function ArchitecturalGyroCore({
 
       <group ref={assemblyRef} position={[0, 0, 0]}>
         <Float speed={1.2} rotationIntensity={0.12} floatIntensity={0.22}>
-          {/* 1. Sculpted Glossy Obsidian-Iridescent Torus-Knot Core (Matches 3D Studio Palette) */}
+          {/* 1. Sculpted Glossy Obsidian-Iridescent Torus-Knot Core */}
           <mesh ref={coreKnotRef}>
             <torusKnotGeometry args={[0.92, 0.26, 200, 36, 2, 3]} />
             <meshPhysicalMaterial
@@ -94,7 +85,7 @@ function ArchitecturalGyroCore({
             />
           </mesh>
 
-          {/* 2. Glowing Cyan-Crimson Reactor Core Center */}
+          {/* 2. Glowing Cyan Energy Core Center */}
           <mesh ref={innerReactorRef}>
             <octahedronGeometry args={[0.42, 0]} />
             <meshStandardMaterial
@@ -106,95 +97,44 @@ function ArchitecturalGyroCore({
             />
           </mesh>
 
-          {/* 3. Precision Geodesic Wireframe Shield */}
-          <mesh ref={cageRef}>
-            <icosahedronGeometry args={[1.56, 1]} />
-            <meshStandardMaterial
+          {/* 3. Outer Iridescent Cyan Gimbal Ring (Clean, No Wireframe or White Dots) */}
+          <mesh ref={ringOuterRef} rotation={[Math.PI * 0.34, 0.25, 0]}>
+            <torusGeometry args={[2.08, 0.036, 20, 128]} />
+            <meshPhysicalMaterial
               color="#38bdf8"
               emissive="#00e5ff"
-              emissiveIntensity={0.65}
-              wireframe
-              transparent
-              opacity={0.28}
+              emissiveIntensity={1.6}
+              metalness={0.9}
+              roughness={0.14}
+              iridescence={0.8}
             />
           </mesh>
 
-          {/* 4. Outer Iridescent Cyan Gimbal Ring + Orbital Satellite Nodes */}
-          <group ref={ringOuterRef} rotation={[Math.PI * 0.34, 0.25, 0]}>
-            <mesh>
-              <torusGeometry args={[2.08, 0.036, 20, 128]} />
-              <meshPhysicalMaterial
-                color="#38bdf8"
-                emissive="#00e5ff"
-                emissiveIntensity={1.6}
-                metalness={0.9}
-                roughness={0.14}
-                iridescence={0.8}
-              />
-            </mesh>
-            {satelliteAngles.map((angle, idx) => (
-              <mesh
-                key={idx}
-                position={[Math.cos(angle) * 2.08, Math.sin(angle) * 2.08, 0]}
-              >
-                <octahedronGeometry args={[0.115, 0]} />
-                <meshStandardMaterial
-                  color="#ffffff"
-                  emissive={
-                    idx === 0
-                      ? "#00e5ff"
-                      : idx === 1
-                        ? "#a855f7"
-                        : idx === 2
-                          ? "#f43f5e"
-                          : "#2563eb"
-                  }
-                  emissiveIntensity={2.1}
-                  metalness={0.9}
-                  roughness={0.14}
-                />
-              </mesh>
-            ))}
-          </group>
+          {/* 4. Middle Violet-Magenta Gimbal Ring */}
+          <mesh ref={ringMidRef} rotation={[-Math.PI * 0.28, Math.PI * 0.28, 0]}>
+            <torusGeometry args={[1.82, 0.026, 18, 128]} />
+            <meshStandardMaterial
+              color="#c084fc"
+              emissive="#a855f7"
+              emissiveIntensity={1.65}
+              metalness={0.88}
+              roughness={0.16}
+            />
+          </mesh>
 
-          {/* 5. Middle Violet-Magenta Gimbal Ring */}
-          <group ref={ringMidRef} rotation={[-Math.PI * 0.28, Math.PI * 0.28, 0]}>
-            <mesh>
-              <torusGeometry args={[1.82, 0.026, 18, 128]} />
-              <meshStandardMaterial
-                color="#c084fc"
-                emissive="#a855f7"
-                emissiveIntensity={1.65}
-                metalness={0.88}
-                roughness={0.16}
-              />
-            </mesh>
-          </group>
-
-          {/* 6. Inner Rose-Crimson / Brushed Titanium Gimbal Track */}
-          <group ref={ringInnerRef} rotation={[Math.PI * 0.5, -0.35, 0.2]}>
-            <mesh>
-              <torusGeometry args={[1.64, 0.02, 16, 120]} />
-              <meshStandardMaterial
-                color="#fb7185"
-                emissive="#f43f5e"
-                emissiveIntensity={1.35}
-                metalness={0.92}
-                roughness={0.14}
-              />
-            </mesh>
-          </group>
+          {/* 5. Inner Rose-Crimson Gimbal Track */}
+          <mesh ref={ringInnerRef} rotation={[Math.PI * 0.5, -0.35, 0.2]}>
+            <torusGeometry args={[1.64, 0.02, 16, 120]} />
+            <meshStandardMaterial
+              color="#fb7185"
+              emissive="#f43f5e"
+              emissiveIntensity={1.35}
+              metalness={0.92}
+              roughness={0.14}
+            />
+          </mesh>
         </Float>
       </group>
-
-      <Sparkles
-        count={Math.min(110, Math.floor(particleCount * 0.45))}
-        scale={[6.5, 5.5, 5]}
-        size={1.7}
-        speed={0.25}
-        color="#00e5ff"
-        opacity={0.6}
-      />
 
       <OrbitControls
         enableZoom={false}
