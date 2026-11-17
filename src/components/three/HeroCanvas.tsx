@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useMemo, useRef } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
-import { Float, MeshTransmissionMaterial, Sparkles } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { Float, OrbitControls, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
 import { SafeCanvas } from "./SafeCanvas";
 
@@ -13,196 +13,181 @@ interface HeroSceneProps {
   rotationSpeed?: number;
 }
 
-function LiquidChromeAssembly({
+function ArchitecturalGyroCore({
   scrollProgressRef,
-  distortion = 0.35,
-  particleCount = 260,
-  rotationSpeed = 0.25,
+  particleCount = 140,
+  rotationSpeed = 0.28,
 }: HeroSceneProps) {
-  const groupRef = useRef<THREE.Group>(null);
-  const coreRef = useRef<THREE.Mesh>(null);
-  const ring1Ref = useRef<THREE.Mesh>(null);
-  const ring2Ref = useRef<THREE.Mesh>(null);
-  const ring3Ref = useRef<THREE.Mesh>(null);
-  const { pointer, camera } = useThree();
+  const assemblyRef = useRef<THREE.Group>(null);
+  const coreKnotRef = useRef<THREE.Mesh>(null);
+  const innerReactorRef = useRef<THREE.Mesh>(null);
+  const cageRef = useRef<THREE.Mesh>(null);
+  const ringOuterRef = useRef<THREE.Group>(null);
+  const ringMidRef = useRef<THREE.Group>(null);
+  const ringInnerRef = useRef<THREE.Group>(null);
 
-  const geo = useMemo(() => new THREE.IcosahedronGeometry(1.38, 32), []);
-  const basePositions = useMemo(() => {
-    const pos = geo.attributes.position;
-    return new Float32Array(pos.array);
-  }, [geo]);
+  const satelliteAngles = useMemo(() => [0, Math.PI / 2, Math.PI, (Math.PI * 3) / 2], []);
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
     const scroll = scrollProgressRef.current || 0;
 
-    // Gentle vertex displacement on liquid chrome sphere
-    const posAttr = geo.attributes.position as THREE.BufferAttribute;
-    const arr = posAttr.array as Float32Array;
-    const amp = 0.085 * (0.6 + distortion);
-    for (let i = 0; i < arr.length; i += 3) {
-      const bx = basePositions[i];
-      const by = basePositions[i + 1];
-      const bz = basePositions[i + 2];
-      const n =
-        Math.sin(bx * 2.4 + t * 1.1) *
-        Math.cos(by * 2.1 - t * 0.9) *
-        Math.sin(bz * 2.3 + t * 0.7);
-      const scale = 1 + n * amp;
-      arr[i] = bx * scale;
-      arr[i + 1] = by * scale;
-      arr[i + 2] = bz * scale;
-    }
-    posAttr.needsUpdate = true;
-    geo.computeVertexNormals();
-
-    if (coreRef.current) {
-      coreRef.current.rotation.y += delta * rotationSpeed * 0.8;
-    }
-    if (ring1Ref.current) {
-      ring1Ref.current.rotation.z += delta * 0.22;
-      ring1Ref.current.rotation.x = Math.PI * 0.36 + Math.sin(t * 0.35) * 0.08;
-    }
-    if (ring2Ref.current) {
-      ring2Ref.current.rotation.z -= delta * 0.17;
-      ring2Ref.current.rotation.y = Math.cos(t * 0.28) * 0.25;
-    }
-    if (ring3Ref.current) {
-      ring3Ref.current.rotation.y += delta * 0.14;
+    if (assemblyRef.current) {
+      assemblyRef.current.position.y = Math.sin(t * 0.9) * 0.08 - scroll * 0.45;
     }
 
-    if (groupRef.current) {
-      groupRef.current.position.y = -scroll * 1.1;
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(
-        groupRef.current.rotation.y,
-        pointer.x * 0.35,
-        0.05
-      );
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(
-        groupRef.current.rotation.x,
-        -pointer.y * 0.2,
-        0.05
-      );
+    if (coreKnotRef.current) {
+      coreKnotRef.current.rotation.y += delta * rotationSpeed * 1.1;
+      coreKnotRef.current.rotation.x += delta * rotationSpeed * 0.45;
     }
 
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 0.65, 0.04);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.4 - scroll * 0.6, 0.04);
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, 6.2 - scroll * 1.4, 0.04);
-    camera.lookAt(0, -scroll * 0.35, 0);
+    if (innerReactorRef.current) {
+      innerReactorRef.current.rotation.y -= delta * 0.65;
+      const pulse = 1 + Math.sin(t * 2.2) * 0.06;
+      innerReactorRef.current.scale.setScalar(pulse);
+    }
+
+    if (cageRef.current) {
+      cageRef.current.rotation.y -= delta * 0.2;
+      cageRef.current.rotation.z += delta * 0.12;
+    }
+
+    if (ringOuterRef.current) {
+      ringOuterRef.current.rotation.z += delta * 0.32;
+      ringOuterRef.current.rotation.x = Math.PI * 0.34 + Math.sin(t * 0.4) * 0.08;
+    }
+
+    if (ringMidRef.current) {
+      ringMidRef.current.rotation.z -= delta * 0.42;
+      ringMidRef.current.rotation.y = Math.PI * 0.28 + Math.cos(t * 0.35) * 0.12;
+    }
+
+    if (ringInnerRef.current) {
+      ringInnerRef.current.rotation.x += delta * 0.38;
+    }
   });
-
-  const satellites = useMemo(
-    () => [
-      { pos: [2.75, 0.95, -0.6] as [number, number, number], r: 0.18, color: "#00e5ff" },
-      { pos: [-2.6, -0.8, 0.7] as [number, number, number], r: 0.14, color: "#8b5cf6" },
-      { pos: [1.9, -1.6, 1.1] as [number, number, number], r: 0.12, color: "#2979ff" },
-      { pos: [-2.1, 1.45, -0.9] as [number, number, number], r: 0.16, color: "#00e5ff" },
-    ],
-    []
-  );
 
   return (
     <>
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[5, 6, 4]} intensity={2.4} color="#e2f4ff" />
-      <pointLight position={[-4, -2, 3]} intensity={3.2} color="#00e5ff" distance={14} />
-      <pointLight position={[4, 2, -2]} intensity={2.8} color="#8b5cf6" distance={14} />
+      <ambientLight intensity={0.45} />
+      <directionalLight position={[5, 6, 5]} intensity={2.6} color="#ffffff" />
+      <pointLight position={[-4, 2, 4]} intensity={3.2} color="#00e5ff" distance={15} />
+      <pointLight position={[4, -2, -3]} intensity={2.6} color="#8b5cf6" distance={15} />
 
-      <group ref={groupRef} position={[0.9, 0.05, 0]}>
-        <Float speed={1.5} rotationIntensity={0.25} floatIntensity={0.45}>
-          {/* Central Liquid Chrome Core */}
-          <mesh ref={coreRef} geometry={geo}>
+      <group ref={assemblyRef} position={[0, 0, 0]}>
+        <Float speed={1.2} rotationIntensity={0.12} floatIntensity={0.22}>
+          {/* 1. Sculpted Metallic Chrome Torus-Knot Core */}
+          <mesh ref={coreKnotRef}>
+            <torusKnotGeometry args={[0.88, 0.24, 180, 32, 2, 3]} />
             <meshPhysicalMaterial
-              color="#dce6f5"
-              metalness={0.98}
-              roughness={0.07}
-              clearcoat={1}
-              clearcoatRoughness={0.06}
-              envMapIntensity={2.1}
-            />
-          </mesh>
-
-          {/* Outer Glass Shell Halo */}
-          <mesh scale={1.14}>
-            <sphereGeometry args={[1.4, 36, 36]} />
-            <MeshTransmissionMaterial
-              backside
-              samples={4}
-              thickness={0.4}
-              chromaticAberration={0.18}
-              anisotropy={0.2}
-              distortion={0.15}
-              temporalDistortion={0.1}
+              color="#e6effb"
+              metalness={0.96}
               roughness={0.08}
-              color="#9beeff"
-              transparent
-              opacity={0.45}
+              clearcoat={1}
+              clearcoatRoughness={0.05}
+              envMapIntensity={2.2}
             />
           </mesh>
 
-          {/* Holographic Orbital Rings */}
-          <mesh ref={ring1Ref} rotation={[Math.PI * 0.36, 0.2, 0]}>
-            <torusGeometry args={[2.15, 0.022, 16, 120]} />
+          {/* 2. Glowing Cyan Energy Core Center */}
+          <mesh ref={innerReactorRef}>
+            <octahedronGeometry args={[0.42, 0]} />
             <meshStandardMaterial
-              color="#00e5ff"
+              color="#7deeff"
               emissive="#00e5ff"
-              emissiveIntensity={1.6}
-              metalness={0.8}
-              roughness={0.2}
+              emissiveIntensity={2.2}
+              metalness={0.5}
+              roughness={0.15}
             />
           </mesh>
 
-          <mesh ref={ring2Ref} rotation={[-Math.PI * 0.28, 0.65, 0.4]}>
-            <torusGeometry args={[2.55, 0.016, 16, 120]} />
+          {/* 3. Precision Geodesic Wireframe Shield */}
+          <mesh ref={cageRef}>
+            <icosahedronGeometry args={[1.56, 1]} />
             <meshStandardMaterial
-              color="#8b5cf6"
-              emissive="#8b5cf6"
-              emissiveIntensity={1.45}
-              metalness={0.85}
-              roughness={0.2}
+              color="#38bdf8"
+              emissive="#00e5ff"
+              emissiveIntensity={0.6}
+              wireframe
+              transparent
+              opacity={0.26}
             />
           </mesh>
 
-          <mesh ref={ring3Ref} rotation={[Math.PI * 0.48, -0.4, 0.2]}>
-            <torusGeometry args={[2.95, 0.01, 12, 120]} />
-            <meshStandardMaterial
-              color="#2979ff"
-              emissive="#2979ff"
-              emissiveIntensity={1.2}
-            />
-          </mesh>
-
-          {/* Floating Technology Satellite Nodes */}
-          {satellites.map((sat, idx) => (
-            <mesh key={idx} position={sat.pos}>
-              <octahedronGeometry args={[sat.r, 1]} />
+          {/* 4. Outer Precision Gimbal Ring + Orbital Satellite Nodes */}
+          <group ref={ringOuterRef} rotation={[Math.PI * 0.34, 0.25, 0]}>
+            <mesh>
+              <torusGeometry args={[2.08, 0.032, 20, 128]} />
               <meshStandardMaterial
-                color="#ffffff"
-                emissive={sat.color}
-                emissiveIntensity={1.5}
-                metalness={0.9}
-                roughness={0.15}
+                color="#00e5ff"
+                emissive="#00e5ff"
+                emissiveIntensity={1.55}
+                metalness={0.85}
+                roughness={0.18}
               />
             </mesh>
-          ))}
+            {satelliteAngles.map((angle, idx) => (
+              <mesh
+                key={idx}
+                position={[Math.cos(angle) * 2.08, Math.sin(angle) * 2.08, 0]}
+              >
+                <octahedronGeometry args={[0.11, 0]} />
+                <meshStandardMaterial
+                  color="#ffffff"
+                  emissive={idx % 2 === 0 ? "#00e5ff" : "#8b5cf6"}
+                  emissiveIntensity={1.8}
+                  metalness={0.9}
+                  roughness={0.15}
+                />
+              </mesh>
+            ))}
+          </group>
+
+          {/* 5. Middle Violet Gimbal Ring */}
+          <group ref={ringMidRef} rotation={[-Math.PI * 0.28, Math.PI * 0.28, 0]}>
+            <mesh>
+              <torusGeometry args={[1.82, 0.024, 18, 128]} />
+              <meshStandardMaterial
+                color="#a78bfa"
+                emissive="#8b5cf6"
+                emissiveIntensity={1.5}
+                metalness={0.88}
+                roughness={0.18}
+              />
+            </mesh>
+          </group>
+
+          {/* 6. Inner Brushed Titanium Gimbal Track */}
+          <group ref={ringInnerRef} rotation={[Math.PI * 0.5, -0.35, 0.2]}>
+            <mesh>
+              <torusGeometry args={[1.64, 0.018, 16, 120]} />
+              <meshPhysicalMaterial
+                color="#cbd5e1"
+                metalness={0.95}
+                roughness={0.12}
+                clearcoat={1}
+              />
+            </mesh>
+          </group>
         </Float>
       </group>
 
       <Sparkles
-        count={Math.min(240, particleCount)}
-        scale={[12, 8, 6]}
-        size={1.8}
-        speed={0.35}
-        color="#00e5ff"
-        opacity={0.65}
-      />
-      <Sparkles
-        count={Math.min(120, Math.floor(particleCount * 0.5))}
-        scale={[10, 7, 5]}
-        size={2.1}
+        count={Math.min(110, Math.floor(particleCount * 0.45))}
+        scale={[6.5, 5.5, 5]}
+        size={1.7}
         speed={0.25}
-        color="#8b5cf6"
-        opacity={0.55}
+        color="#00e5ff"
+        opacity={0.6}
+      />
+
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.06}
+        autoRotate
+        autoRotateSpeed={0.85}
       />
     </>
   );
@@ -224,12 +209,12 @@ export function HeroCanvas({
   return (
     <SafeCanvas
       fallbackImageUrl={fallbackImageUrl}
-      fallbackAlt="Indrajeet Kumar (Shourya Sinha) 3D hero liquid chrome sphere"
+      fallbackAlt="Indrajeet Kumar (Shourya Sinha) 3D hero gyroscope core"
       className="h-full w-full"
-      cameraPosition={[0, 0, 6.2]}
-      fov={44}
+      cameraPosition={[0, 0.35, 5.8]}
+      fov={42}
     >
-      <LiquidChromeAssembly
+      <ArchitecturalGyroCore
         scrollProgressRef={scrollProgressRef}
         distortion={distortion}
         particleCount={particleCount}
