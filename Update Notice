@@ -1,0 +1,829 @@
+# FINAL ARCHITECTURE UPDATE NOTICE
+# DYNAMIC PORTFOLIO + AUTOMATED ATS RESUME GENERATION + VERSION CONTROL
+
+IMPORTANT: This is an additional mandatory architectural requirement for the previously approved SHOURYA SINHA IMMERSIVE 3D PORTFOLIO PROJECT.
+
+Do not discard, simplify, replace or redesign the previously approved architecture.
+
+Preserve all previously approved:
+- Premium futuristic 3D visual direction.
+- Original generated 3D images.
+- React Three Fiber architecture.
+- GSAP ScrollTrigger animations.
+- Xiaomi-inspired pinned scroll services experience.
+- Next.js and TypeScript.
+- MongoDB and Mongoose.
+- Cloudinary.
+- Full administrative CMS.
+- Cybersecurity project showcases.
+- AI assistant showcases.
+- StreamNova.
+- PortPilot.
+- GitHub integration.
+- Freelance services.
+- SEO.
+- Security and deployment requirements.
+
+This update introduces one additional major subsystem:
+
+**DYNAMIC PROFESSIONAL PROFILE AND AUTOMATED ATS RESUME MANAGEMENT SYSTEM.**
+
+This system is mandatory and must be integrated into the existing portfolio and administrator dashboard.
+
+---
+
+# 1. CORE REQUIREMENT: ONE SOURCE OF TRUTH
+
+The portfolio and resume must never become two separately maintained content systems.
+
+Create a centralized professional profile database in MongoDB.
+
+The database must contain:
+
+- Personal information.
+- Professional headline.
+- Professional summary.
+- Contact information.
+- Employment history.
+- Responsibilities.
+- Skills.
+- Technical categories.
+- Projects.
+- Project technologies.
+- Education.
+- Certifications.
+- Professional achievements.
+- Career information.
+- Social links.
+
+The public portfolio and resume generator must consume the same approved professional information.
+
+Architecture:
+
+MongoDB Professional Profile
+    |
+    |---- Portfolio Content API
+    |       |
+    |       |---- About
+    |       |---- Experience
+    |       |---- Skills
+    |       |---- Projects
+    |       |---- Education
+    |       |---- Certifications
+    |
+    |---- Resume Generation Engine
+            |
+            |---- ATS Resume PDF
+            |---- ATS Resume DOCX
+            |---- Resume Version History
+            |---- Resume Download Center
+
+There must be no duplicate hardcoded professional information in frontend components.
+
+The database must be the authoritative source.
+
+---
+
+# 2. AUTOMATIC WEBSITE AND RESUME SYNCHRONIZATION
+
+Whenever an administrator adds or updates professional information, the changes must propagate to all relevant public sections.
+
+Examples:
+
+A. Experience update:
+- Add a new company.
+- Enter job title.
+- Enter company name.
+- Enter location.
+- Enter start date.
+- Enter end date.
+- Add responsibilities.
+- Add technologies.
+
+Expected result:
+- Experience timeline updates.
+- About statistics update where applicable.
+- Resume experience section updates.
+- Resume generation system detects a content change.
+- A new resume draft is prepared.
+
+B. Skills update:
+- Add a new technical skill.
+- Assign category.
+- Add optional proficiency or experience details.
+- Reorder the skill.
+
+Expected result:
+- Website skills section updates.
+- Resume technical skills section updates.
+- Resume draft is regenerated.
+
+C. Certification update:
+- Add certification.
+- Upload original certificate.
+- Add issuer.
+- Add issue date.
+- Add credential ID, if available.
+- Add verification URL, if available.
+
+Expected result:
+- 3D certificate gallery updates.
+- Resume certification section updates.
+- Resume draft is generated.
+
+D. Project update:
+- Add project.
+- Add description.
+- Add technologies.
+- Add project URL.
+- Add GitHub URL.
+- Set project status.
+- Select whether the project should appear in the resume.
+
+Expected result:
+- 3D project gallery updates.
+- Resume project section updates if selected.
+
+E. Education update:
+- Add or modify academic details.
+- Update degree.
+- Update institution.
+- Update dates.
+- Update GPA if verified.
+
+Expected result:
+- Education section updates.
+- Resume education section updates.
+
+IMPORTANT:
+
+Every content entity must have a resume inclusion setting.
+
+Administrators must be able to decide whether an item belongs in:
+- Public portfolio.
+- General resume.
+- Role-specific resume.
+- Both portfolio and resume.
+- Neither.
+
+Do not automatically put every website service or experimental project into the resume.
+
+---
+
+# 3. ATS RESUME DESIGN: PRESERVE THE EXISTING RESUME STRUCTURE
+
+The currently supplied resume is the baseline document.
+
+Inspect the resume PDF stored in the root directory of the relevant GitHub repository and inspect its contents and visual layout.
+
+Also inspect the uploaded resume PDF.
+
+Preserve its existing professional reading flow and conventional resume structure.
+
+The current resume contains these sections:
+
+1. Name and contact information.
+2. Professional headline.
+3. Professional Summary.
+4. Professional Experience.
+5. Featured Projects.
+6. Technical Skills.
+7. Education.
+8. Certifications.
+
+Keep this structure as the primary resume template.
+
+Do not replace the resume with:
+- A graphical infographic.
+- A two-column decorative design.
+- A portfolio-style PDF.
+- A heavily illustrated design.
+- A document with 3D elements.
+- A resume containing icons in place of standard labels.
+
+The public website may be extremely visual and 3D.
+
+The downloadable professional resume must remain clean, readable and ATS-oriented.
+
+## ATS template requirements
+
+Use:
+- Single-column document layout.
+- Standard section headings.
+- Conventional readable fonts.
+- Consistent date formatting.
+- Clear employment chronology.
+- Selectable text.
+- Proper text extraction.
+- Standard bullet points.
+- Consistent margins.
+- Professional spacing.
+- Logical reading order.
+
+Avoid:
+- Tables for core resume content.
+- Multiple columns.
+- Text embedded inside images.
+- Decorative icons replacing contact labels.
+- Complex headers and footers.
+- Excessive graphics.
+- Unnecessary colors.
+- Decorative skill progress bars.
+- Unusual section names.
+
+Use conventional headings such as PROFESSIONAL SUMMARY, PROFESSIONAL EXPERIENCE, TECHNICAL SKILLS, EDUCATION and CERTIFICATIONS.
+
+Preserve the original professional tone and concise technical writing style.
+
+Do not unnecessarily rewrite accurate resume information.
+
+When adding new responsibilities, produce clear action-oriented bullet points.
+
+Never invent numerical achievements or business results.
+
+## ATS validation
+
+Build a resume validation module that checks:
+
+- PDF text extraction.
+- Correct reading order.
+- Standard headings.
+- Contact information.
+- Date consistency.
+- Section structure.
+- Font embedding.
+- Selectable text.
+- Page overflow.
+- Broken text.
+- Missing required information.
+- Excessive formatting.
+- Duplicate content.
+
+Provide an ATS compatibility checklist and parsing preview.
+
+Do not claim a guaranteed 100% ATS score.
+
+Different applicant tracking systems have different parsing and ranking mechanisms. The system must report measurable document quality checks rather than fabricated universal ATS scores.
+
+---
+
+# 4. RESUME GENERATION ENGINE
+
+Create a reusable resume generation engine.
+
+Generate:
+- PDF.
+- DOCX.
+
+The PDF must contain selectable text, not just a screenshot or flattened image.
+
+DOCX must remain editable.
+
+Use a consistent template and professional typography.
+
+Generate documents from the MongoDB professional profile.
+
+The system must support:
+- Automatic pagination.
+- Proper page breaks.
+- Consistent spacing.
+- Automatic section expansion.
+- Bullet wrapping.
+- Date alignment.
+- Font embedding in PDF.
+- Hyperlinked contact information where appropriate.
+- GitHub and LinkedIn links.
+- Correct filename generation.
+
+When experience or certifications increase, the document should expand naturally without overlapping text or breaking its layout.
+
+Do not impose a fixed two-page limit if it causes information loss. Prefer concise content while maintaining readability.
+
+Create a resume preview before publication.
+
+---
+
+# 5. RESUME VERSION CONTROL SYSTEM
+
+This is a critical feature.
+
+Every published resume must have a permanent version number.
+
+Initial version:
+
+v1.0 — Original Resume.
+
+Example future versions:
+
+v1.1 — Updated Skills and Certification.
+
+v1.2 — New Professional Experience.
+
+v1.3 — New Projects.
+
+v2.0 — Major Resume Structure or Career Profile Update.
+
+Use semantic versioning rules:
+
+PATCH:
+Minor corrections such as spelling, formatting or non-substantive wording.
+
+MINOR:
+New skills, projects, certifications, education or experience entries.
+
+MAJOR:
+Significant professional profile restructuring or a major resume template change.
+
+The administrator may also manually assign a version, but duplicate versions must not be allowed.
+
+## Version history collection
+
+Create a resumeVersions MongoDB collection.
+
+Fields:
+
+- version.
+- title.
+- description.
+- releaseNotes.
+- generatedAt.
+- publishedAt.
+- createdBy.
+- status.
+- profileSnapshot.
+- contentHash.
+- pdfUrl.
+- docxUrl.
+- templateVersion.
+- isLatest.
+- isPublic.
+- changeSummary.
+
+Each version must store an immutable snapshot of the professional profile used to generate it.
+
+Store its generated PDF and DOCX in persistent storage.
+
+Never regenerate an older version using newer profile information.
+
+Never overwrite an already published historical document.
+
+A new update must create a new version.
+
+Provide rollback functionality by creating a new version from a previous snapshot. Do not silently mutate historical releases.
+
+---
+
+# 6. AUTOMATIC CHANGE DETECTION AND PUBLISHING WORKFLOW
+
+Implement a reliable change-detection system.
+
+When relevant professional information changes:
+
+1. Save the database update.
+2. Detect whether resume-relevant content changed.
+3. Calculate a content hash.
+4. Compare it against the latest published profile snapshot.
+5. If the content changed, mark the resume as OUTDATED.
+6. Prepare a new resume draft.
+7. Generate PDF and DOCX previews.
+8. Run document validation.
+9. Show a change summary.
+10. Request administrator approval.
+11. Publish the new resume version.
+12. Update the latest resume download link.
+
+Do not generate a new version for irrelevant changes such as:
+- Website background color.
+- 3D animation speed.
+- Image positioning.
+- Navigation animation.
+- Non-resume-related content.
+
+Support two publishing modes:
+
+MANUAL APPROVAL:
+Administrator reviews and publishes each new resume version.
+
+AUTOMATIC PUBLICATION:
+Administrator enables automatic publication after successful validation.
+
+Default mode must be MANUAL APPROVAL.
+
+This prevents incomplete or incorrect professional information from appearing in published resumes.
+
+The public website content can update according to its own publish settings without forcing an immediate resume release.
+
+---
+
+# 7. ADMIN RESUME MANAGEMENT CENTER
+
+Create a dedicated admin section:
+
+/admin/resume-management
+
+Dashboard should show:
+
+- Current published version.
+- Latest draft version.
+- Last generation date.
+- Last publication date.
+- Resume status.
+- Number of historical versions.
+- Pending changes.
+- Validation results.
+- Download statistics.
+
+Provide actions:
+
+1. Generate Resume.
+2. Preview Resume.
+3. Edit Resume Content.
+4. Compare Versions.
+5. Publish New Version.
+6. Download PDF.
+7. Download DOCX.
+8. View Version History.
+9. Restore Previous Snapshot.
+10. Enable/Disable Automatic Publication.
+11. Manage Resume Templates.
+12. Manage Role-Specific Resumes.
+
+Create a change comparison view.
+
+Example:
+
+v1.0 → v1.1
+
+ADDED:
+- React Native skill.
+- New cybersecurity project.
+- New certification.
+
+MODIFIED:
+- Professional summary.
+
+REMOVED:
+- No removed entries.
+
+The administrator must be able to inspect changes before publication.
+
+---
+
+# 8. ROLE-SPECIFIC RESUME GENERATION
+
+Create multiple resume profiles from the same professional database.
+
+Initial profiles:
+
+A. Full Stack Developer Resume.
+
+B. React Native / Mobile App Developer Resume.
+
+C. Python and AI Developer Resume.
+
+D. Cybersecurity and Application Security Resume.
+
+E. IT Support Engineer / System Administrator Resume.
+
+Each profile must:
+- Use the same verified professional history.
+- Select relevant skills.
+- Select relevant projects.
+- Select relevant experience bullets.
+- Maintain accurate dates.
+- Use the same ATS-friendly design.
+- Have its own version history.
+- Be downloadable independently.
+
+Do not fabricate role-specific employment history.
+
+Do not exaggerate cybersecurity experience.
+
+Penetration testing must remain accurately described as learning, research or practical implementation where applicable.
+
+The administrator should control which information is included in each resume profile.
+
+---
+
+# 9. PUBLIC WEBSITE RESUME DOWNLOAD CENTER
+
+Integrate resume management into the public portfolio.
+
+Add a professional Download Resume button in:
+- Hero.
+- Navigation.
+- About section.
+- Contact section.
+
+Create a dedicated route:
+
+/resume
+
+This page should have the same premium futuristic visual identity as the main website.
+
+However, the resume document itself must remain ATS-friendly.
+
+Public page content:
+
+Professional Resume
+Shourya Sinha (Kumar Indrajeet)
+
+Latest published version.
+
+Buttons:
+- Download Latest PDF.
+- Download Latest DOCX.
+- View Resume.
+- View Previous Versions.
+
+Add a version selector.
+
+Example:
+
+v1.2 — Latest Published.
+v1.1 — Previous Version.
+v1.0 — Original Resume.
+
+For each version show:
+- Version number.
+- Publication date.
+- Brief release notes.
+- PDF download.
+- DOCX download where available.
+
+Visitors must be able to choose and download an older version when needed.
+
+The original resume should remain available as v1.0.
+
+Do not expose draft or unpublished resumes publicly.
+
+Use permanent version-specific document URLs.
+
+---
+
+# 10. RESUME STORAGE ARCHITECTURE
+
+Keep original uploaded documents separate from generated documents.
+
+Suggested storage structure:
+
+/resume
+    /original
+        original_resume_v1.0.pdf
+
+    /generated
+        /general
+            /v1.0
+                resume.pdf
+                resume.docx
+
+            /v1.1
+                resume.pdf
+                resume.docx
+
+        /fullstack
+        /mobile
+        /python-ai
+        /cybersecurity
+        /it-support
+
+Use persistent object storage.
+
+MongoDB stores metadata and document URLs, not large binary PDF contents.
+
+Cloudinary or compatible document storage may be used after verifying PDF delivery and access requirements.
+
+Never overwrite the original uploaded PDF.
+
+Never overwrite historical published versions.
+
+---
+
+# 11. RESUME API ARCHITECTURE
+
+Create protected endpoints.
+
+Admin endpoints:
+
+GET /api/admin/resume/current
+
+GET /api/admin/resume/versions
+
+POST /api/admin/resume/generate
+
+POST /api/admin/resume/preview
+
+POST /api/admin/resume/publish
+
+POST /api/admin/resume/compare
+
+POST /api/admin/resume/rollback
+
+PUT /api/admin/resume/settings
+
+GET /api/admin/resume/validation
+
+GET /api/admin/resume/change-summary
+
+Public endpoints:
+
+GET /api/public/resume/latest
+
+GET /api/public/resume/versions
+
+GET /api/public/resume/version/:version
+
+GET /api/public/resume/download/:version/pdf
+
+GET /api/public/resume/download/:version/docx
+
+Ensure authorization and visibility checks on every endpoint.
+
+---
+
+# 12. DATABASE ADDITIONS
+
+Add the following MongoDB collections:
+
+professionalProfiles
+resumeTemplates
+resumeVersions
+resumeDrafts
+resumeGenerationJobs
+resumeSettings
+resumeDownloadLogs
+
+Create proper schemas and indexes.
+
+Store immutable snapshots for published versions.
+
+Use background jobs for generation when needed.
+
+Ensure duplicate generation requests do not create multiple identical versions.
+
+Use transactions or reliable state transitions for publication.
+
+---
+
+# 13. RESUME DESIGN CONSISTENCY
+
+The initial resume v1.0 must be based on the original uploaded PDF.
+
+Preserve:
+- Professional identity.
+- Existing section order.
+- Professional summary.
+- Experience chronology.
+- Featured projects.
+- Technical skills categories.
+- Education.
+- Certifications.
+
+Improve document layout only when necessary for readability and ATS parsing.
+
+Do not remove important technical information simply to make the resume shorter.
+
+Allow an administrator to edit the resume content without changing the public website's visual design.
+
+The website and document must remain two different presentation layers over the same verified data.
+
+---
+
+# 14. AUTHENTICITY AND PROFESSIONAL ACCURACY
+
+This requirement is extremely important.
+
+The website must tell my actual professional story.
+
+My strongest differentiators are:
+
+1. Intelligent Graph-Based Attack Path Discovery and its v2.5 capabilities.
+2. Local AI assistants using Ollama and Hugging Face GGUF.
+3. PortPilot hosting and deployment platform.
+4. StreamNova audio and video platform.
+5. Telegram blockchain transaction automation.
+6. Production-oriented workforce management and enterprise systems.
+7. Adversarial machine learning and cybersecurity research.
+
+Give these projects greater visual and narrative attention than a generic programming language list.
+
+The website should look like a premium futuristic technology company website, but its content must communicate my genuine experience, actual projects and professional capabilities.
+
+Do not invent clients, awards, certificates, employers, security results or revenue figures.
+
+Clearly distinguish:
+- Production.
+- Completed.
+- In Development.
+- Experimental.
+- Research.
+- Planned.
+
+Use accurate descriptions.
+
+---
+
+# 15. FINAL TESTING AND ACCEPTANCE CRITERIA
+
+The dynamic resume feature is complete only when all the following tests pass:
+
+TEST 1:
+Create a new experience in admin.
+
+Expected:
+Portfolio timeline updates and resume draft is generated.
+
+TEST 2:
+Add a new technical skill.
+
+Expected:
+Website skills update and resume draft reflects the skill.
+
+TEST 3:
+Add a new certification.
+
+Expected:
+3D certificate gallery updates and resume draft reflects the certification.
+
+TEST 4:
+Add a project with resume inclusion enabled.
+
+Expected:
+Project gallery and resume draft update.
+
+TEST 5:
+Change only website animation settings.
+
+Expected:
+No unnecessary resume version is generated.
+
+TEST 6:
+Publish v1.1.
+
+Expected:
+v1.1 becomes the latest version and v1.0 remains available.
+
+TEST 7:
+Download v1.0 after publishing v1.1.
+
+Expected:
+The exact original v1.0 document is downloaded.
+
+TEST 8:
+Generate DOCX.
+
+Expected:
+Editable Word document with the same professional content and logical reading order.
+
+TEST 9:
+Extract text from generated PDF.
+
+Expected:
+All content is selectable and correctly ordered.
+
+TEST 10:
+Generate a role-specific resume.
+
+Expected:
+Relevant verified experience and skills are selected without inventing information.
+
+TEST 11:
+Restore an older snapshot.
+
+Expected:
+A new version is created, preserving all historical versions.
+
+TEST 12:
+Visit the public resume page.
+
+Expected:
+Only published versions are visible and downloadable.
+
+---
+
+# 16. FINAL INSTRUCTION
+
+Integrate this subsystem into the already approved website architecture.
+
+Do not build it as an unrelated standalone project.
+
+The portfolio, admin CMS, professional profile database and resume generation system must work together.
+
+The final product must be:
+
+A premium immersive 3D portfolio.
+A professional freelance services platform.
+A dynamic personal CMS.
+An automated ATS-friendly resume generator.
+A version-controlled resume archive.
+A role-specific resume management system.
+
+The result should allow me to manage my entire professional identity from one administrator dashboard.
+
+I should never need to manually edit my resume PDF every time I add a skill, project, experience or certification.
+
+The system must generate, validate, version and publish updated resumes from the approved professional profile.
+
+Preserve all previous architectural and visual decisions.
+
+Implement, test and document every feature.
