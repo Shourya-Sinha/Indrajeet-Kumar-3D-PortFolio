@@ -27,6 +27,7 @@ import { buildResumeSnapshot } from "@/lib/resume/role-profiles";
 import { generateAtsResumePdfBuffer } from "@/lib/resume/pdf-generator";
 import { generateAtsResumeDocxBuffer } from "@/lib/resume/docx-generator";
 import { validateResumePdfBuffer } from "@/lib/resume/ats-validator";
+import { resolveGoDaddySmtpConfig } from "@/lib/email/mailer";
 import {
   CSRF_COOKIE_NAME,
   SESSION_COOKIE_NAME,
@@ -426,7 +427,15 @@ describe("Portfolio CMS, Security & Dynamic ATS Resume Subsystem (Update Notice 
     expect(pubVerJson.data.some((v) => v.version === "v1.0")).toBe(true);
     expect(pubVerJson.data.every((v) => v.version.startsWith("v"))).toBe(true);
 
-    // 12f. Contact form submission validates input and logs inquiry safely
+    // 12f. Contact form submission validates input and routes all inquiries to support@anantainfratechsolutions.com via GoDaddy SMTP defaults
+    const smtpCfg = resolveGoDaddySmtpConfig();
+    expect(smtpCfg.host).toBe("smtpout.secureserver.net");
+    expect(smtpCfg.port).toBe(465);
+    expect(smtpCfg.secure).toBe(true);
+    expect(smtpCfg.user).toBe("support@anantainfratechsolutions.com");
+    expect(smtpCfg.fromEmail).toBe("support@anantainfratechsolutions.com");
+    expect(smtpCfg.recipient).toBe("support@anantainfratechsolutions.com");
+
     const contactReq = new NextRequest("http://localhost:3000/api/public/contact", {
       method: "POST",
       headers: { "content-type": "application/json", "x-forwarded-for": "203.0.113.55" },
@@ -440,5 +449,12 @@ describe("Portfolio CMS, Security & Dynamic ATS Resume Subsystem (Update Notice 
     });
     const contactRes = await publicContactPost(contactReq);
     expect(contactRes.status).toBe(201);
+    const contactJson = (await contactRes.json()) as {
+      ok: boolean;
+      data: { id: string; emailDeliveryStatus: string };
+    };
+    expect(contactJson.ok).toBe(true);
+    const savedInquiry = await findOne("contactInquiries", { _id: contactJson.data.id });
+    expect(savedInquiry?.emailDeliveryDetail).toContain("support@anantainfratechsolutions.com");
   });
 });

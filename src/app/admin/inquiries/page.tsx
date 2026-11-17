@@ -44,7 +44,7 @@ export default function AdminInquiriesPage() {
   return (
     <AdminShell
       title="Client Inquiry Manager"
-      subtitle="Review freelance inquiries, update workflow statuses, record internal notes, and verify automated notification delivery."
+      subtitle="Review freelance inquiries, update workflow statuses, record internal notes, and verify GoDaddy SMTP delivery to support@anantainfratechsolutions.com."
     >
       <div className="flex flex-wrap gap-2">
         {["all", "new", "reviewed", "replied", "archived"].map((st) => (
@@ -96,6 +96,9 @@ export default function AdminInquiriesPage() {
                     <span>Preferred: {inq.preferredContactMethod}</span>
                     <span>Email Status: {inq.emailDeliveryStatus}</span>
                   </div>
+                  {inq.emailDeliveryDetail && (
+                    <p className="mt-1 text-[11px] text-slate-400">{inq.emailDeliveryDetail}</p>
+                  )}
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">

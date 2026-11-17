@@ -614,7 +614,7 @@ Designed, Developed & Maintained by Shourya Sinha (Kumar Indrajeet).
      - **Certifications Gallery**: 3D gallery & `pdfjs-dist` interactive PDF/image certificate modal (`CertificateReaderModal`).
      - **Education**: Verified academic timeline (`Amrita Vishwa Vidyapeetham` MCA Cybersecurity 9.4/10, `Sunrise University` B.Sc. IT).
      - **GitHub Activity Showcase**: 15-minute cached GitHub API integration (`Shourya-Sinha`) with verified local repository fallback.
-     - **Freelance Services & Contact Portal**: 4 engagement tiers + validated inquiry submission API with rate limiting and Resend/SMTP notifications.
+     - **Freelance Services & Contact Portal**: 4 engagement tiers + validated inquiry submission API with rate limiting and direct GoDaddy Professional Email (Titan) SMTP routing to `support@anantainfratechsolutions.com`.
    - **Technical SEO**: Dynamic metadata, canonicals, `sitemap.xml`, `robots.txt`, and `Person` + `ProfessionalService` JSON-LD schema.
 
 2. **Public ATS Resume Download Center (`/resume`) & Automated Resume Engine**
@@ -664,8 +664,8 @@ cp .env.example .env
 | `AUTH_SECRET` | HMAC secret for admin JWT cookies | Set 32+ hex chars in production |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME` | Seeded `super_admin` credentials | `Krindrajeet.c@gmail.com` / override password before production |
 | `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | Signed Cloudinary CDN media uploads | Optional (falls back to `/api/media/files/...` local store) |
-| `RESEND_API_KEY` or `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | Contact inquiry email delivery | Optional (logs inquiries in DB when unset) |
-| `ADMIN_NOTIFICATION_EMAIL` | Destination inbox for client inquiries | `Krindrajeet.c@gmail.com` |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | GoDaddy Professional Email (Titan) SMTP dispatch (`smtpout.secureserver.net`, port `465` SSL) | Pre-configured for `support@anantainfratechsolutions.com` (set `SMTP_PASS` to send live emails; otherwise logged in DB queue) |
+| `ADMIN_NOTIFICATION_EMAIL` | Destination inbox for all client inquiries | `support@anantainfratechsolutions.com` |
 | `GITHUB_USERNAME` / `GITHUB_TOKEN` | GitHub repository feed & rate limit boost | `Shourya-Sinha` |
 
 ### Complete Commands Reference (Install, Seed, Run, Stop, Lint & Test)

@@ -165,7 +165,7 @@ Every major section, service domain, and project uses a dedicated text-free dark
 
 Unified modular TypeScript backend hosted inside Next.js App Router API routes (`src/app/api/**`) with strict layering:
 1. **Route Layer**: Auth/RBAC middleware, CSRF & origin validation, rate limiting, Zod schema validation, HTTP status normalization.
-2. **Service Layer**: Business rules (Resume change detection & semantic versioning, Cloudinary signed upload generation, GitHub API TTL caching, SMTP/Resend dispatch, Audit log emission).
+2. **Service Layer**: Business rules (Resume change detection & semantic versioning, Cloudinary signed upload generation, GitHub API TTL caching, GoDaddy Titan SMTP dispatch to `support@anantainfratechsolutions.com`, Audit log emission).
 3. **Persistence Layer (`src/lib/db`)**:
    - Real **MongoDB + Mongoose** models across all 23 collections when `MONGODB_URI` is configured.
    - Schema-validated local file-backed repository adapter (`mingo` query engine + Mongoose `.validate()` enforcement) for self-contained local development when `MONGODB_URI` is unset.
@@ -259,5 +259,5 @@ Unified modular TypeScript backend hosted inside Next.js App Router API routes (
 
 ## 11. Deployment Architecture
 
-- **Vercel / Serverless Target**: Next.js 15 App Router, MongoDB Atlas (`MONGODB_URI`), Cloudinary signed uploads, SMTP/Resend notifications, persistent S3/Cloudinary or mounted volume for generated resume archives.
+- **Vercel / Serverless Target**: Next.js 15 App Router, MongoDB Atlas (`MONGODB_URI`), Cloudinary signed uploads, GoDaddy Titan SMTP notifications (`support@anantainfratechsolutions.com`), persistent S3/Cloudinary or mounted volume for generated resume archives.
 - **Docker / VPS Target**: Multi-stage `Dockerfile` + `docker-compose.yml` running `web` (Next.js standalone), `mongodb` (`mongo:7` with persistent named volume), and optional `redis`, with health checks and automated backup scripts (`mongodump` + `/storage/resumes` archive).
