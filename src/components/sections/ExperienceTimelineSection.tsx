@@ -23,17 +23,29 @@ export function ExperienceTimelineSection({
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el.querySelectorAll("[data-exp-item]"),
-        { y: 36, opacity: 0 },
+        {
+          y: 44,
+          z: -70,
+          rotateX: 16,
+          rotateY: -5,
+          scale: 0.94,
+          opacity: 0,
+          transformPerspective: 1400,
+        },
         {
           y: 0,
+          z: 0,
+          rotateX: 0,
+          rotateY: 0,
+          scale: 1,
           opacity: 1,
           stagger: 0.14,
-          duration: 0.75,
-          ease: "power2.out",
+          duration: 0.85,
+          ease: "power3.out",
           clearProps: "transform",
           scrollTrigger: {
             trigger: el,
-            start: "top 75%",
+            start: "top 78%",
             once: true,
           },
         }
@@ -43,7 +55,7 @@ export function ExperienceTimelineSection({
   }, []);
 
   return (
-    <section ref={sectionRef} id="experience" className="relative py-24 sm:py-32">
+    <section ref={sectionRef} id="experience" className="perspective-1600 relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-end gap-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
@@ -54,20 +66,22 @@ export function ExperienceTimelineSection({
             />
           </div>
           <div className="lg:col-span-5">
-            <div className="glass-panel overflow-hidden rounded-2xl p-2">
-              <img
-                src="/assets/visuals/section-experience.webp"
-                alt="3D chronological experience helix"
-                loading="lazy"
-                className="h-36 w-full rounded-xl object-cover"
-              />
-            </div>
+            <TiltCard3D maxTilt={10} depth={20} floatIdle>
+              <div className="glass-panel glass-panel-hover overflow-hidden rounded-2xl p-2">
+                <img
+                  src="/assets/visuals/section-experience.webp"
+                  alt="3D chronological experience helix"
+                  loading="lazy"
+                  className="h-36 w-full rounded-xl object-cover"
+                />
+              </div>
+            </TiltCard3D>
           </div>
         </div>
 
         {/* 3D Animated Timeline */}
         <div className="relative mt-16 pl-6 sm:pl-10">
-          <div className="absolute bottom-2 left-2.5 top-2 w-px bg-gradient-to-b from-cyan-400 via-blue-500/60 to-violet-500/30 sm:left-4" />
+          <div className="absolute bottom-2 left-2.5 top-2 w-0.5 bg-gradient-to-b from-cyan-400 via-blue-500/70 to-violet-500/40 shadow-[0_0_16px_rgba(0,229,255,0.4)] sm:left-4" />
 
           <div className="space-y-8">
             {experiences.map((exp, idx) => {
@@ -77,20 +91,20 @@ export function ExperienceTimelineSection({
 
               return (
                 <div key={exp._id} data-exp-item className="relative">
-                  {/* Glowing Timeline Node */}
+                  {/* Glowing 3D Timeline Node */}
                   <span
                     className={`absolute -left-[22px] top-6 flex h-4 w-4 items-center justify-center rounded-full border sm:-left-[32px] ${
                       exp.isCurrent
-                        ? "border-cyan-300 bg-cyan-400 shadow-[0_0_16px_#00e5ff]"
-                        : "border-violet-300 bg-[#101318]"
+                        ? "animate-pulse border-cyan-300 bg-cyan-400 shadow-[0_0_20px_#00e5ff]"
+                        : "border-violet-300 bg-[#101318] shadow-[0_0_12px_rgba(139,92,246,0.45)]"
                     }`}
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-white" />
                   </span>
 
-                  <TiltCard3D maxTilt={4}>
-                    <div className="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-8">
-                      <div className="flex flex-wrap items-start justify-between gap-4">
+                  <TiltCard3D maxTilt={7} depth={18}>
+                    <div className="glass-panel glass-panel-hover preserve-3d rounded-3xl p-6 sm:p-8">
+                      <div className="depth-z-2 flex flex-wrap items-start justify-between gap-4">
                         <div>
                           <div className="flex flex-wrap items-center gap-2.5">
                             <span className="font-mono text-xs text-cyan-300">
@@ -125,9 +139,9 @@ export function ExperienceTimelineSection({
                         </div>
                       </div>
 
-                      <p className="mt-4 text-sm text-slate-300">{exp.description}</p>
+                      <p className="depth-z-1 mt-4 text-sm text-slate-300">{exp.description}</p>
 
-                      <ul className="mt-4 space-y-2 text-sm text-slate-300/90">
+                      <ul className="depth-z-1 mt-4 space-y-2 text-sm text-slate-300/90">
                         {exp.responsibilities.map((resp, rIdx) => (
                           <li key={rIdx} className="flex items-start gap-2.5">
                             <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
@@ -136,11 +150,11 @@ export function ExperienceTimelineSection({
                         ))}
                       </ul>
 
-                      <div className="mt-5 flex flex-wrap gap-1.5 border-t border-white/10 pt-4">
+                      <div className="depth-z-1 mt-5 flex flex-wrap gap-1.5 border-t border-white/10 pt-4">
                         {exp.technologies.map((tech) => (
                           <span
                             key={tech}
-                            className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium text-slate-300"
+                            className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-0.5 text-[11px] font-medium text-cyan-200"
                           >
                             {tech}
                           </span>

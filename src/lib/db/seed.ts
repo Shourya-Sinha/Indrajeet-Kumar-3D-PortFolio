@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import bcrypt from "bcryptjs";
 import { ensureDbConnected, getDbState } from "./connection";
-import { countDocs, createOne, findOne } from "./repository";
+import { countDocs, createOne, findOne, updateById } from "./repository";
 import type { ResumeProfileType } from "./types";
 import { buildResumeSnapshot } from "../resume/role-profiles";
 import { computeSnapshotHash } from "../resume/hash";
@@ -40,7 +40,7 @@ async function runSeed(): Promise<void> {
   if (userCount === 0) {
     const adminEmail = (process.env.ADMIN_EMAIL || "Krindrajeet.c@gmail.com").trim().toLowerCase();
     const adminPassword = process.env.ADMIN_PASSWORD || "ShouryaAdmin!2026";
-    const adminName = process.env.ADMIN_NAME || "Shourya Sinha";
+    const adminName = process.env.ADMIN_NAME || "Indrajeet Kumar (Shourya Sinha)";
     const passwordHash = await bcrypt.hash(adminPassword, 12);
     await createOne("users", {
       email: adminEmail,
@@ -52,13 +52,14 @@ async function runSeed(): Promise<void> {
   }
 
   // 2. Site Settings
-  if (!(await findOne("siteSettings", { settingsKey: "primary" }))) {
+  const existingSettings = await findOne("siteSettings", { settingsKey: "primary" });
+  if (!existingSettings) {
     await createOne("siteSettings", {
       settingsKey: "primary",
-      brandName: "SHOURYA SINHA",
-      alternateName: "KUMAR INDRAJEET",
+      brandName: "INDRAJEET KUMAR",
+      alternateName: "Shourya Sinha",
       tagline: "Full Stack Developer | Mobile App Engineer | AI & Cybersecurity Enthusiast",
-      footerCredit: "Designed, Developed & Maintained by Shourya Sinha (Kumar Indrajeet).",
+      footerCredit: "Designed, Developed & Maintained by Indrajeet Kumar (Shourya Sinha).",
       availabilityStatus: "Available for Freelance & Full-Stack / AppSec Roles",
       availableForHire: true,
       githubUsername: "Shourya-Sinha",
@@ -91,14 +92,24 @@ async function runSeed(): Promise<void> {
         contact: true,
       },
     });
+  } else if (
+    existingSettings.brandName === "SHOURYA SINHA" &&
+    existingSettings.alternateName === "KUMAR INDRAJEET"
+  ) {
+    await updateById("siteSettings", existingSettings._id, {
+      brandName: "INDRAJEET KUMAR",
+      alternateName: "Shourya Sinha",
+      footerCredit: "Designed, Developed & Maintained by Indrajeet Kumar (Shourya Sinha).",
+    });
   }
 
   // 3. Master Professional Profile (Single Source of Truth)
-  if (!(await findOne("professionalProfiles", { profileKey: "master" }))) {
+  const existingProfile = await findOne("professionalProfiles", { profileKey: "master" });
+  if (!existingProfile) {
     await createOne("professionalProfiles", {
       profileKey: "master",
       fullName: "KUMAR INDRAJEET",
-      displayName: "SHOURYA SINHA",
+      displayName: "INDRAJEET KUMAR",
       headline: "Full Stack Developer | Mobile App Engineer | AI & Cybersecurity Enthusiast",
       resumeHeadline: "Full Stack Developer | MERN Stack | Cybersecurity Enthusiast",
       email: "Krindrajeet.c@gmail.com",
@@ -117,15 +128,20 @@ async function runSeed(): Promise<void> {
         "certifications",
       ],
     });
+  } else if (existingProfile.displayName === "SHOURYA SINHA") {
+    await updateById("professionalProfiles", existingProfile._id, {
+      displayName: "INDRAJEET KUMAR",
+    });
   }
 
   // 4. Hero Content
-  if (!(await findOne("heroContent", { contentKey: "primary" }))) {
+  const existingHero = await findOne("heroContent", { contentKey: "primary" });
+  if (!existingHero) {
     await createOne("heroContent", {
       contentKey: "primary",
       badgeText: "AVAILABLE FOR SELECTIVE ENGINEERING & SECURITY ENGAGEMENTS",
-      primaryName: "SHOURYA SINHA",
-      alternateName: "KUMAR INDRAJEET",
+      primaryName: "INDRAJEET KUMAR",
+      alternateName: "Shourya Sinha",
       roles: [
         "Full Stack Developer",
         "Mobile App Engineer",
@@ -145,6 +161,14 @@ async function runSeed(): Promise<void> {
         rotationSpeed: 0.25,
       },
       status: "published",
+    });
+  } else if (
+    existingHero.primaryName === "SHOURYA SINHA" &&
+    existingHero.alternateName === "KUMAR INDRAJEET"
+  ) {
+    await updateById("heroContent", existingHero._id, {
+      primaryName: "INDRAJEET KUMAR",
+      alternateName: "Shourya Sinha",
     });
   }
 
@@ -1203,12 +1227,12 @@ async function runSeed(): Promise<void> {
   if ((await countDocs("seoMetadata")) === 0) {
     await createOne("seoMetadata", {
       routeKey: "/",
-      title: "Shourya Sinha (Kumar Indrajeet) — Full Stack Developer, Mobile Engineer & Cybersecurity Researcher",
+      title: "Indrajeet Kumar (Shourya Sinha) — Full Stack Developer, Mobile Engineer & Cybersecurity Researcher",
       description:
-        "Immersive 3D portfolio and IT solutions platform for Shourya Sinha (Kumar Indrajeet). Full Stack Web, React Native, AI/Local LLM Automation, and Cybersecurity Engineering.",
+        "Immersive 3D portfolio and IT solutions platform for Indrajeet Kumar (Shourya Sinha). Full Stack Web, React Native, AI/Local LLM Automation, and Cybersecurity Engineering.",
       keywords: [
+        "Indrajeet Kumar",
         "Shourya Sinha",
-        "Kumar Indrajeet",
         "Full Stack Developer",
         "React Native Engineer",
         "Cybersecurity Portfolio",
@@ -1216,7 +1240,7 @@ async function runSeed(): Promise<void> {
         "Patna Software Engineer",
       ],
       canonicalUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-      ogTitle: "Shourya Sinha — Engineering Intelligent Digital Experiences",
+      ogTitle: "Indrajeet Kumar (Shourya Sinha) — Engineering Intelligent Digital Experiences",
       ogDescription:
         "Production-grade 3D developer portfolio, cybersecurity graph discovery showcase, AI automation, and freelance engineering services.",
       ogImageUrl: "/assets/visuals/hero-environment.webp",
@@ -1225,12 +1249,12 @@ async function runSeed(): Promise<void> {
     });
     await createOne("seoMetadata", {
       routeKey: "/resume",
-      title: "Professional Resume Archive — Shourya Sinha (Kumar Indrajeet)",
+      title: "Professional Resume Archive — Indrajeet Kumar (Shourya Sinha)",
       description:
-        "Download the latest ATS-friendly PDF and DOCX resume or inspect verified versioned releases for Shourya Sinha (Kumar Indrajeet).",
-      keywords: ["Shourya Sinha Resume", "Kumar Indrajeet CV", "Full Stack Resume PDF", "ATS Resume"],
+        "Download the latest ATS-friendly PDF and DOCX resume or inspect verified versioned releases for Indrajeet Kumar (Shourya Sinha).",
+      keywords: ["Indrajeet Kumar Resume", "Shourya Sinha CV", "Full Stack Resume PDF", "ATS Resume"],
       canonicalUrl: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/resume`,
-      ogTitle: "Professional Resume — Shourya Sinha (Kumar Indrajeet)",
+      ogTitle: "Professional Resume — Indrajeet Kumar (Shourya Sinha)",
       ogDescription: "Verified ATS-friendly PDF & DOCX resume archive with version history.",
       ogImageUrl: "/assets/visuals/hero-environment.webp",
       twitterCard: "summary_large_image",

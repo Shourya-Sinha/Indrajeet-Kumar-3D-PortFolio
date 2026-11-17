@@ -224,7 +224,7 @@ export function HeroCanvas({
   return (
     <SafeCanvas
       fallbackImageUrl={fallbackImageUrl}
-      fallbackAlt="Shourya Sinha 3D hero liquid chrome sphere"
+      fallbackAlt="Indrajeet Kumar (Shourya Sinha) 3D hero liquid chrome sphere"
       className="h-full w-full"
       cameraPosition={[0, 0, 6.2]}
       fov={44}

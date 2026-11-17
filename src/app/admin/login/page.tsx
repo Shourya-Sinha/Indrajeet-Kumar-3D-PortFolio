@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
           </div>
           <div>
             <h1 className="font-display text-xl font-bold text-white">Admin CMS Sign In</h1>
-            <p className="text-xs text-slate-400">Shourya Sinha Portfolio & ATS Resume Control</p>
+            <p className="text-xs text-slate-400">Indrajeet Kumar (Shourya Sinha) Portfolio & ATS Resume Control</p>
           </div>
         </div>
 

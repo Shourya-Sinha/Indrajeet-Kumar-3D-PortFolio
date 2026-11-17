@@ -255,7 +255,7 @@ export function CertificateReaderModal({ cert, onClose }: ReaderProps) {
                 <div className="mt-4 grid grid-cols-2 gap-3 border-t border-white/10 pt-3 text-xs text-slate-400">
                   <div>
                     <span className="block text-slate-500">Recipient</span>
-                    <span className="font-medium text-slate-200">Shourya Sinha (Kumar Indrajeet)</span>
+                    <span className="font-medium text-slate-200">Indrajeet Kumar (Shourya Sinha)</span>
                   </div>
                   <div>
                     <span className="block text-slate-500">Credential ID</span>

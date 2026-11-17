@@ -57,7 +57,7 @@ export function Footer({
           <span>
             {settings.location} · {settings.contactEmail}
           </span>
-          <span>© {new Date().getFullYear()} Shourya Sinha (Kumar Indrajeet). All rights reserved.</span>
+          <span>© {new Date().getFullYear()} {settings.brandName} ({settings.alternateName}). All rights reserved.</span>
         </div>
       </div>
     </footer>

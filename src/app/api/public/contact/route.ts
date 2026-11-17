@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
         status: saved.status,
         emailDeliveryStatus: saved.emailDeliveryStatus,
       },
-      message: "Inquiry received successfully. Shourya Sinha will respond shortly.",
+      message: "Inquiry received successfully. Indrajeet Kumar (Shourya Sinha) will respond shortly.",
     },
     { status: 201 }
   );

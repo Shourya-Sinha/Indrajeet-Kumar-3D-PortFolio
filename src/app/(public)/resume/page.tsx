@@ -6,6 +6,7 @@ import { findMany, findOne } from "@/lib/db/repository";
 import type { ResumeProfileType, ResumeVersionDoc } from "@/lib/db/types";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { PublicShell } from "@/components/layout/PublicShell";
 import { PublicResumeCenterClient } from "@/components/resume/PublicResumeCenterClient";
 import { getLatestPublishedResume } from "@/lib/resume/service";
 
@@ -40,7 +41,7 @@ export default async function PublicResumePage() {
   }
 
   return (
-    <div className="min-h-screen bg-ambient-grid">
+    <PublicShell themeConfig={settings?.themeConfig}>
       <Navbar
         settings={settings!}
         navigation={navigation}
@@ -65,6 +66,6 @@ export default async function PublicResumePage() {
       </main>
 
       <Footer settings={settings!} navigation={navigation} />
-    </div>
+    </PublicShell>
   );
 }

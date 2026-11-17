@@ -47,27 +47,69 @@ h3,
   font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 }
 
-/* Liquid Glass & Metallic Surfaces */
+/* Liquid Glass & Machined 3D Slab Surfaces */
 .glass-panel {
-  background: linear-gradient(155deg, rgba(22, 27, 36, 0.72) 0%, rgba(11, 14, 20, 0.84) 100%);
-  backdrop-filter: blur(20px) saturate(135%);
-  -webkit-backdrop-filter: blur(20px) saturate(135%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(155deg, rgba(24, 30, 42, 0.76) 0%, rgba(10, 13, 19, 0.88) 100%);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.11);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 24px 60px rgba(0, 0, 0, 0.55);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 229, 255, 0.08),
+    0 10px 0 -4px rgba(8, 12, 18, 0.92),
+    0 11px 0 -4px rgba(0, 229, 255, 0.16),
+    0 26px 64px rgba(0, 0, 0, 0.62);
 }
 
 .glass-panel-hover {
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(0, 229, 255, 0.35);
+  border-color: rgba(0, 229, 255, 0.45);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 24px 70px rgba(0, 229, 255, 0.09),
-    0 20px 50px rgba(0, 0, 0, 0.65);
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(139, 92, 246, 0.25),
+    0 14px 0 -4px rgba(6, 10, 16, 0.95),
+    0 15px 0 -4px rgba(0, 229, 255, 0.34),
+    0 30px 80px rgba(0, 229, 255, 0.15),
+    0 24px 54px rgba(0, 0, 0, 0.75);
+}
+
+/* True 3D Transform Depth Helpers */
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.perspective-1600 {
+  perspective: 1600px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.depth-z-1 {
+  transform: translateZ(16px);
+}
+
+.depth-z-2 {
+  transform: translateZ(30px);
+}
+
+.depth-z-3 {
+  transform: translateZ(44px);
+}
+
+@media (hover: none) {
+  .depth-z-1,
+  .depth-z-2,
+  .depth-z-3 {
+    transform: none;
+  }
 }
 
 .chrome-text {
@@ -75,6 +117,7 @@ h3,
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 8px 24px rgba(0, 229, 255, 0.12));
 }
 
 .cyber-text-gradient {
@@ -82,6 +125,7 @@ h3,
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 12px 32px rgba(0, 229, 255, 0.18));
 }
 
 .bg-ambient-grid {
@@ -92,15 +136,7 @@ h3,
   background-size: 100% 100%, 56px 56px, 56px 56px;
 }
 
-/* 3D Page Flip & Certificate Card Helpers */
-.perspective-1200 {
-  perspective: 1200px;
-}
-
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
+/* 3D Keyframe Choreography */
 @keyframes pageFlipIn {
   0% {
     opacity: 0.25;
@@ -114,6 +150,64 @@ h3,
 
 .animate-page-turn {
   animation: pageFlipIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes flip3DIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(14deg) rotateY(-10deg) translateZ(-40px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1);
+  }
+}
+
+.animate-3d-flip {
+  animation: flip3DIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes float3DIdle {
+  0%,
+  100% {
+    transform: perspective(1200px) translateY(0px) rotateX(2deg) rotateY(-3deg);
+  }
+  50% {
+    transform: perspective(1200px) translateY(-10px) rotateX(-2.5deg) rotateY(3.5deg);
+  }
+}
+
+.animate-float-3d {
+  animation: float3DIdle 7s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes spinPrism3D {
+  0% {
+    transform: rotateX(22deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(22deg) rotateY(360deg);
+  }
+}
+
+.animate-spin-prism {
+  animation: spinPrism3D 14s linear infinite;
+  transform-style: preserve-3d;
+}
+
+/* CSS 3D Isometric Cube Widget */
+.cube-3d {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.cube-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.16), rgba(139, 92, 246, 0.12));
+  box-shadow: inset 0 0 14px rgba(0, 229, 255, 0.2);
 }
 
 /* Custom Scrollbar */
@@ -135,6 +229,11 @@ h3,
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .animate-float-3d,
+  .animate-spin-prism,
+  .animate-3d-flip {
+    animation: none !important;
   }
   *,
   *::before,
