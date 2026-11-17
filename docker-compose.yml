@@ -1,0 +1,42 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: mongodb://mongo:27017/shourya_portfolio
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-Krindrajeet.c@gmail.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-ChangeMeBeforeProduction!2026}
+      AUTH_SECRET: ${AUTH_SECRET:-replace-with-random-64-char-secret}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-portfolio@shouryasinha.dev}
+      ADMIN_NOTIFICATION_EMAIL: ${ADMIN_NOTIFICATION_EMAIL:-Krindrajeet.c@gmail.com}
+      GITHUB_USERNAME: Shourya-Sinha
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+    depends_on:
+      - mongo
+    volumes:
+      - resume_storage:/app/storage
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  resume_storage:
