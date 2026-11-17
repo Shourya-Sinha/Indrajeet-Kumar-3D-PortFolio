@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Layers } from "lucide-react";
 import type { ServiceDoc } from "@/lib/db/types";
 import { TiltCard3D } from "@/components/ui/TiltCard3D";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const ServicesStageCanvas = dynamic(
   () => import("@/components/three/ServicesStageCanvas").then((m) => m.ServicesStageCanvas),
@@ -23,40 +19,79 @@ export function ServicesPinnedSection({
   onRequestService?: (serviceTitle: string) => void;
 }) {
   const containerRef = useRef<HTMLElement>(null);
-  const pinTargetRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [expandedDetail, setExpandedDetail] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
-    const pinTarget = pinTargetRef.current;
-    if (!container || !pinTarget || services.length === 0) return;
+    if (!container || services.length === 0) return;
 
-    const mm = gsap.matchMedia();
+    let rafId = 0;
 
-    mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
-      const trigger = ScrollTrigger.create({
-        trigger: pinTarget,
-        pin: true,
-        scrub: 0.7,
-        start: "top top",
-        end: () => `+=${Math.max(services.length * 360, 2200)}`,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          progressRef.current = self.progress;
-          const idx = Math.min(
-            services.length - 1,
-            Math.floor(self.progress * services.length)
-          );
-          setActiveIndex((prev) => (prev !== idx ? idx : prev));
-        },
-      });
-      return () => trigger.kill();
-    });
+    const syncFromScroll = () => {
+      rafId = 0;
+      if (window.innerWidth < 1024) return;
+      const rect = container.getBoundingClientRect();
+      const scrollable = Math.max(rect.height - window.innerHeight, 1);
+      const raw = Math.min(Math.max(-rect.top / scrollable, 0), 1);
+      progressRef.current = raw;
 
-    return () => mm.revert();
+      const idx = Math.min(
+        services.length - 1,
+        Math.floor(raw * (services.length - 0.0001))
+      );
+      setActiveIndex((prev) => (prev !== idx ? idx : prev));
+    };
+
+    const onScrollOrResize = () => {
+      if (!rafId) {
+        rafId = window.requestAnimationFrame(syncFromScroll);
+      }
+    };
+
+    syncFromScroll();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
   }, [services.length]);
+
+  const goToStep = useCallback(
+    (targetIdx: number) => {
+      const clamped = Math.max(0, Math.min(services.length - 1, targetIdx));
+      setActiveIndex(clamped);
+
+      const container = containerRef.current;
+      if (!container || window.innerWidth < 1024) return;
+
+      const rect = container.getBoundingClientRect();
+      const sectionTop = window.scrollY + rect.top;
+      const scrollable = Math.max(rect.height - window.innerHeight, 1);
+      const targetProgress = Math.min(
+        Math.max((clamped + 0.35) / services.length, 0),
+        0.995
+      );
+      const targetY = sectionTop + targetProgress * scrollable;
+
+      const lenis = (
+        window as unknown as {
+          __ikLenis?: { scrollTo: (t: number, o?: { duration?: number }) => void };
+        }
+      ).__ikLenis;
+
+      if (lenis) {
+        lenis.scrollTo(targetY, { duration: 0.6 });
+      } else {
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+      }
+    },
+    [services.length]
+  );
 
   if (services.length === 0) return null;
   const active = services[activeIndex] || services[0];
@@ -70,21 +105,22 @@ export function ServicesPinnedSection({
   };
 
   return (
-    <section ref={containerRef} id="services" className="perspective-1600 relative bg-[#050608]/90">
-      <div
-        ref={pinTargetRef}
-        className="relative flex min-h-screen flex-col justify-center overflow-hidden border-y border-white/10 py-14 lg:py-8"
-      >
+    <section
+      ref={containerRef}
+      id="services"
+      className="relative bg-[#040508]/95 lg:h-[520vh]"
+    >
+      <div className="perspective-1600 relative flex min-h-screen flex-col justify-center overflow-x-clip border-y border-white/10 py-14 lg:sticky lg:top-0 lg:min-h-screen lg:pt-24 lg:pb-8">
         {/* Ambient Accent Glow */}
         <div className="pointer-events-none absolute right-0 top-1/4 h-[30rem] w-[30rem] rounded-full bg-cyan-500/10 blur-[150px]" />
 
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Top Bar: Eyebrow + Step Progress */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-300">
                 <Layers className="h-3.5 w-3.5" />
-                Immersive 3D Solutions Stage · {services.length} Capabilities
+                Scroll-Driven 3D Solutions Stage · {services.length} Capabilities
               </div>
               <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">
                 Pinned Scroll 3D Solutions Stage
@@ -94,19 +130,19 @@ export function ServicesPinnedSection({
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
+                onClick={() => goToStep(activeIndex - 1)}
                 disabled={activeIndex === 0}
                 className="rounded-full border border-white/15 bg-white/5 p-2 text-slate-200 transition hover:border-cyan-400/40 disabled:opacity-35"
                 aria-label="Previous service"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <div className="font-mono text-xs text-cyan-300">
+              <div className="font-cyber text-xs font-bold text-cyan-300 tabular-nums">
                 {String(activeIndex + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
               </div>
               <button
                 type="button"
-                onClick={() => setActiveIndex((i) => Math.min(services.length - 1, i + 1))}
+                onClick={() => goToStep(activeIndex + 1)}
                 disabled={activeIndex === services.length - 1}
                 className="rounded-full border border-white/15 bg-white/5 p-2 text-slate-200 transition hover:border-cyan-400/40 disabled:opacity-35"
                 aria-label="Next service"
@@ -117,24 +153,21 @@ export function ServicesPinnedSection({
           </div>
 
           {/* Progress Rail */}
-          <div className="mb-7 h-1 w-full overflow-hidden rounded-full bg-white/10">
+          <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 shadow-[0_0_12px_rgba(0,229,255,0.65)] transition-all duration-300"
+              className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 via-violet-500 to-rose-500 shadow-[0_0_14px_rgba(0,229,255,0.7)] transition-all duration-200"
               style={{ width: `${((activeIndex + 1) / services.length) * 100}%` }}
             />
           </div>
 
           {/* Split Storytelling 3D Stage */}
           <div className="grid items-center gap-8 lg:grid-cols-12">
-            {/* Left: Interactive 3D Narrative Card */}
+            {/* Left: Stable High-Clarity 3D Narrative Card */}
             <div className="space-y-5 lg:col-span-6">
-              <TiltCard3D maxTilt={8} depth={20}>
-                <div
-                  key={active._id}
-                  className="glass-panel glass-panel-hover preserve-3d animate-3d-flip rounded-3xl p-6 sm:p-8"
-                >
+              <TiltCard3D maxTilt={7} depth={18}>
+                <div className="glass-panel glass-panel-hover preserve-3d rounded-3xl p-6 transition-colors duration-300 sm:p-8">
                   <div className="depth-z-2 flex items-center justify-between">
-                    <span className="font-mono text-3xl font-bold text-cyan-400/90 sm:text-4xl">
+                    <span className="font-cyber text-3xl font-bold text-cyan-400/95 sm:text-4xl">
                       {active.numberLabel}
                     </span>
                     <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-slate-300">
@@ -203,7 +236,6 @@ export function ServicesPinnedSection({
               <TiltCard3D maxTilt={9} depth={22} glowAccent="violet">
                 <div className="holo-border-glow glass-panel glass-panel-hover preserve-3d relative h-[320px] overflow-hidden rounded-3xl sm:h-[400px]">
                   <img
-                    key={active.imageUrl}
                     src={active.imageUrl}
                     alt={active.imageAlt}
                     className="absolute inset-0 h-full w-full object-cover opacity-50 transition-opacity duration-500"
@@ -218,9 +250,9 @@ export function ServicesPinnedSection({
                   </div>
                   <div className="depth-z-2 pointer-events-none absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between text-xs text-slate-300">
                     <span className="rounded-full border border-white/15 bg-black/65 px-3 py-1 backdrop-blur-md">
-                      Scroll or select step to morph 3D environment
+                      Keep scrolling (01→17) or pick a step to morph 3D stage
                     </span>
-                    <span className="font-mono text-cyan-300">{active.numberLabel}</span>
+                    <span className="font-cyber text-cyan-300">{active.numberLabel}</span>
                   </div>
                 </div>
               </TiltCard3D>
@@ -231,7 +263,7 @@ export function ServicesPinnedSection({
                   <button
                     key={srv._id}
                     type="button"
-                    onClick={() => setActiveIndex(idx)}
+                    onClick={() => goToStep(idx)}
                     title={srv.title}
                     className={`shrink-0 rounded-xl border px-3 py-1.5 text-xs font-medium transition ${
                       idx === activeIndex
@@ -247,13 +279,13 @@ export function ServicesPinnedSection({
           </div>
 
           {expandedDetail && (
-            <div className="animate-3d-flip mt-6 grid max-h-52 gap-2 overflow-y-auto rounded-2xl border border-white/10 bg-[#0b0e14] p-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="mt-5 grid max-h-52 gap-2 overflow-y-auto rounded-2xl border border-white/10 bg-[#0b0e14] p-4 sm:grid-cols-3 lg:grid-cols-4">
               {services.map((srv, idx) => (
                 <button
                   key={srv._id}
                   type="button"
                   onClick={() => {
-                    setActiveIndex(idx);
+                    goToStep(idx);
                     setExpandedDetail(false);
                   }}
                   className={`rounded-xl border px-3 py-2 text-left text-xs transition ${

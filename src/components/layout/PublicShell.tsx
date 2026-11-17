@@ -51,6 +51,7 @@ export function PublicShell({
       wheelMultiplier: 0.95,
     });
 
+    (window as unknown as { __ikLenis?: Lenis }).__ikLenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);
 
     const tick = (time: number) => {
@@ -60,6 +61,7 @@ export function PublicShell({
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      delete (window as unknown as { __ikLenis?: Lenis }).__ikLenis;
       gsap.ticker.remove(tick);
       lenis.destroy();
     };

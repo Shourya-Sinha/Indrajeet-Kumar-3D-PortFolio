@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X, Download, ArrowUpRight } from "lucide-react";
 import type { NavigationItemDoc, SiteSettingsDoc } from "@/lib/db/types";
+import { FontStyleSwitcher } from "@/components/ui/FontStyleSwitcher";
 
 export function Navbar({
   settings,
@@ -92,10 +93,10 @@ export function Navbar({
           className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent"
         />
 
-        <div className="preserve-3d flex items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+        <div className="preserve-3d flex items-center justify-between gap-2 px-3 py-2.5 sm:px-5 xl:gap-4">
           {/* Left: 3D Rotating Cube Emblem + Brand */}
-          <Link href="/" className="group preserve-3d flex items-center gap-3">
-            <span className="preserve-3d flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/45 bg-gradient-to-br from-cyan-400/20 to-violet-500/20 shadow-[0_4px_0_rgba(0,229,255,0.28),0_0_24px_rgba(0,229,255,0.22)] transition-transform duration-300 group-hover:[transform:translateZ(18px)_rotateX(12deg)_rotateY(-12deg)]">
+          <Link href="/" className="group preserve-3d flex shrink-0 items-center gap-2.5">
+            <span className="preserve-3d flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-400/45 bg-gradient-to-br from-cyan-400/20 to-violet-500/20 shadow-[0_4px_0_rgba(0,229,255,0.28),0_0_24px_rgba(0,229,255,0.22)] transition-transform duration-300 group-hover:[transform:translateZ(18px)_rotateX(12deg)_rotateY(-12deg)]">
               <span className="cube-3d animate-spin-prism h-3.5 w-3.5">
                 <span className="cube-face" style={{ transform: "translateZ(7px)" }} />
                 <span className="cube-face" style={{ transform: "rotateY(180deg) translateZ(7px)" }} />
@@ -105,11 +106,11 @@ export function Navbar({
                 <span className="cube-face" style={{ transform: "rotateX(-90deg) translateZ(7px)" }} />
               </span>
             </span>
-            <div className="depth-z-1">
-              <div className="font-cyber text-xs font-bold tracking-[0.18em] text-white transition group-hover:text-cyan-200 sm:text-sm">
+            <div className="depth-z-1 whitespace-nowrap">
+              <div className="font-cyber text-xs font-bold tracking-[0.14em] text-white transition group-hover:text-cyan-200 xl:text-sm xl:tracking-[0.18em]">
                 {settings.brandName}
               </div>
-              <div className="font-mono text-[10px] tracking-[0.16em] text-cyan-300/85">
+              <div className="font-mono text-[10px] tracking-[0.14em] text-cyan-300/85">
                 ({settings.alternateName})
               </div>
             </div>
@@ -117,13 +118,13 @@ export function Navbar({
 
           {/* Center: Raised 3D Keycap Nav Items */}
           <nav
-            className="preserve-3d hidden items-center gap-1.5 lg:flex"
+            className="preserve-3d hidden items-center gap-1 lg:flex xl:gap-1.5"
             aria-label="Primary Navigation"
           >
             {headerItems.map((item) => {
               const isSectionActive =
                 activeHash && item.href.endsWith(activeHash);
-              const pillClass = `rounded-xl border px-3 py-1.5 text-xs font-medium tracking-wide transition-all duration-200 ${
+              const pillClass = `whitespace-nowrap rounded-xl border px-2 py-1.5 text-[11px] font-medium tracking-wide transition-all duration-200 xl:px-3 xl:text-xs ${
                 isSectionActive
                   ? "border-cyan-400/55 bg-cyan-400/15 text-cyan-200 shadow-[0_3px_0_rgba(0,229,255,0.32),0_0_18px_rgba(0,229,255,0.22)] [transform:translateZ(12px)]"
                   : "border-white/10 bg-white/[0.03] text-slate-300 shadow-[0_3px_0_rgba(4,7,14,0.85)] hover:-translate-y-0.5 hover:border-cyan-400/45 hover:bg-cyan-400/10 hover:text-cyan-200 hover:shadow-[0_5px_0_rgba(0,229,255,0.25),0_8px_18px_rgba(0,229,255,0.16)]"
@@ -147,18 +148,19 @@ export function Navbar({
             })}
           </nav>
 
-          {/* Right: 3D Raised Action Capsules */}
-          <div className="preserve-3d hidden items-center gap-2.5 lg:flex">
+          {/* Right: Font Style Switcher + 3D Raised Action Capsules */}
+          <div className="preserve-3d hidden shrink-0 items-center gap-1.5 whitespace-nowrap lg:flex xl:gap-2">
+            <FontStyleSwitcher />
             <Link
               href="/resume"
-              className="depth-z-1 inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/[0.05] px-3.5 py-2 text-xs font-semibold text-slate-200 shadow-[0_4px_0_rgba(5,8,16,0.9)] transition hover:-translate-y-0.5 hover:border-cyan-400/50 hover:text-cyan-200 hover:shadow-[0_6px_0_rgba(0,229,255,0.28)]"
+              className="depth-z-1 inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/[0.05] px-2.5 py-2 text-[11px] font-semibold text-slate-200 shadow-[0_4px_0_rgba(5,8,16,0.9)] transition hover:-translate-y-0.5 hover:border-cyan-400/50 hover:text-cyan-200 hover:shadow-[0_6px_0_rgba(0,229,255,0.28)] xl:px-3 xl:text-xs"
             >
               <Download className="h-3.5 w-3.5 text-cyan-300" />
-              Resume {latestResumeVersion || "v1.0"}
+              <span>Resume {latestResumeVersion || "v1.0"}</span>
             </Link>
             <Link
               href="/#contact"
-              className="depth-z-2 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-4 py-2 text-xs font-bold text-slate-950 shadow-[0_4px_0_rgba(14,116,144,0.85),0_0_24px_rgba(0,229,255,0.3)] transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-[0_6px_0_rgba(14,116,144,0.95),0_0_32px_rgba(0,229,255,0.45)]"
+              className="depth-z-2 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-3 py-2 text-[11px] font-bold text-slate-950 shadow-[0_4px_0_rgba(14,116,144,0.85),0_0_24px_rgba(0,229,255,0.3)] transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-[0_6px_0_rgba(14,116,144,0.95),0_0_32px_rgba(0,229,255,0.45)] xl:px-3.5 xl:text-xs"
             >
               Hire Me <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
@@ -196,21 +198,24 @@ export function Navbar({
                 {item.label}
               </Link>
             ))}
-            <div className="mt-2 flex gap-2 border-t border-white/10 pt-3">
-              <Link
-                href="/resume"
-                onClick={() => setMobileOpen(false)}
-                className="flex-1 rounded-xl border border-white/15 bg-white/5 py-2.5 text-center text-xs font-semibold text-white"
-              >
-                Download Resume
-              </Link>
-              <Link
-                href="/#contact"
-                onClick={() => setMobileOpen(false)}
-                className="flex-1 rounded-xl bg-cyan-400 py-2.5 text-center text-xs font-bold text-slate-950"
-              >
-                Hire Me
-              </Link>
+            <div className="mt-2 space-y-2 border-t border-white/10 pt-3">
+              <FontStyleSwitcher compact />
+              <div className="flex gap-2">
+                <Link
+                  href="/resume"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex-1 rounded-xl border border-white/15 bg-white/5 py-2.5 text-center text-xs font-semibold text-white"
+                >
+                  Download Resume
+                </Link>
+                <Link
+                  href="/#contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex-1 rounded-xl bg-cyan-400 py-2.5 text-center text-xs font-bold text-slate-950"
+                >
+                  Hire Me
+                </Link>
+              </div>
             </div>
           </div>
         </div>

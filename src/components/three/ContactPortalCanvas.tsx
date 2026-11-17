@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Float, OrbitControls, Sparkles } from "@react-three/drei";
+import { Float, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { SafeCanvas } from "./SafeCanvas";
 
@@ -58,8 +58,6 @@ function PortalScene() {
           <meshStandardMaterial color="#8b5cf6" emissive="#8b5cf6" emissiveIntensity={1.4} />
         </mesh>
       </Float>
-
-      <Sparkles count={70} scale={[6, 6, 4]} size={1.6} speed={0.25} color="#00e5ff" />
 
       <OrbitControls
         enableZoom={false}
