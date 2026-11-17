@@ -1,11 +1,17 @@
 "use client";
 
 import React, { useEffect } from "react";
+import dynamic from "next/dynamic";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const AmbientSpaceCanvas = dynamic(
+  () => import("@/components/three/AmbientSpaceCanvas").then((m) => m.AmbientSpaceCanvas),
+  { ssr: false }
+);
 
 export function PublicShell({
   children,
@@ -58,5 +64,10 @@ export function PublicShell({
     };
   }, [themeConfig]);
 
-  return <div className="relative min-h-screen bg-ambient-grid">{children}</div>;
+  return (
+    <div className="relative min-h-screen bg-ambient-grid">
+      <AmbientSpaceCanvas />
+      <div className="relative z-10">{children}</div>
+    </div>
+  );
 }

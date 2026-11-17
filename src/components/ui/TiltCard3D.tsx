@@ -1,43 +1,93 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 export function TiltCard3D({
   children,
   className = "",
-  maxTilt = 8,
+  maxTilt = 11,
+  depth = 18,
+  spotlight = true,
+  floatIdle = false,
+  glowAccent = "cyan",
 }: {
   children: React.ReactNode;
   className?: string;
   maxTilt?: number;
+  depth?: number;
+  spotlight?: boolean;
+  floatIdle?: boolean;
+  glowAccent?: "cyan" | "violet" | "emerald";
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = cardRef.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const rect = el.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width - 0.5;
-    const py = (e.clientY - rect.top) / rect.height - 0.5;
-    const rx = (-py * maxTilt).toFixed(2);
-    const ry = (px * maxTilt).toFixed(2);
-    el.style.transform = `perspective(1100px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(4px)`;
+    const outer = outerRef.current;
+    const inner = innerRef.current;
+    if (!outer || !inner) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const rect = outer.getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width;
+    const relY = (e.clientY - rect.top) / rect.height;
+    const px = relX - 0.5;
+    const py = relY - 0.5;
+
+    const rx = (-py * maxTilt * 1.45).toFixed(2);
+    const ry = (px * maxTilt * 1.45).toFixed(2);
+
+    inner.style.transform = `perspective(1250px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(${depth}px) scale3d(1.015, 1.015, 1.015)`;
+    inner.style.setProperty("--mx", `${(relX * 100).toFixed(1)}%`);
+    inner.style.setProperty("--my", `${(relY * 100).toFixed(1)}%`);
+    if (!hovered) setHovered(true);
   };
 
   const onLeave = () => {
-    if (cardRef.current) {
-      cardRef.current.style.transform = "perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0)";
+    setHovered(false);
+    const inner = innerRef.current;
+    if (inner) {
+      inner.style.transform =
+        "perspective(1250px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)";
     }
   };
 
+  const spotlightColor =
+    glowAccent === "violet"
+      ? "rgba(139, 92, 246, 0.2)"
+      : glowAccent === "emerald"
+        ? "rgba(16, 185, 129, 0.18)"
+        : "rgba(0, 229, 255, 0.18)";
+
   return (
     <div
-      ref={cardRef}
+      ref={outerRef}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className={`transition-transform duration-300 ease-out will-change-transform ${className}`}
+      className={`perspective-1200 ${floatIdle && !hovered ? "animate-float-3d" : ""} ${className}`}
     >
-      {children}
+      <div
+        ref={innerRef}
+        className="preserve-3d relative h-full w-full rounded-[inherit] transition-transform duration-300 ease-out will-change-transform"
+        style={{
+          transform:
+            "perspective(1250px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
+        }}
+      >
+        {children}
+
+        {spotlight && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300"
+            style={{
+              opacity: hovered ? 1 : 0,
+              background: `radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%), ${spotlightColor}, transparent 68%)`,
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }

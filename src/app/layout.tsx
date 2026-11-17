@@ -25,18 +25,18 @@ export async function generateMetadata(): Promise<Metadata> {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const title =
       seo?.title ||
-      "Shourya Sinha (Kumar Indrajeet) — Full Stack Developer, Mobile Engineer & Cybersecurity Researcher";
+      "Indrajeet Kumar (Shourya Sinha) — Full Stack Developer, Mobile Engineer & Cybersecurity Researcher";
     const description =
       seo?.description ||
-      "Immersive 3D developer portfolio, freelance IT solutions platform, and cybersecurity research showcase for Shourya Sinha (Kumar Indrajeet).";
+      "Immersive 3D developer portfolio, freelance IT solutions platform, and cybersecurity research showcase for Indrajeet Kumar (Shourya Sinha).";
 
     return {
       metadataBase: new URL(siteUrl),
       title,
       description,
       keywords: seo?.keywords || [
+        "Indrajeet Kumar",
         "Shourya Sinha",
-        "Kumar Indrajeet",
         "Full Stack Developer",
         "React Native Engineer",
         "Cybersecurity",
@@ -51,13 +51,13 @@ export async function generateMetadata(): Promise<Metadata> {
         title: seo?.ogTitle || title,
         description: seo?.ogDescription || description,
         type: "website",
-        siteName: settings?.brandName || "SHOURYA SINHA",
+        siteName: settings?.brandName || "INDRAJEET KUMAR",
         images: [
           {
             url: seo?.ogImageUrl || "/assets/visuals/hero-environment.webp",
             width: 1280,
             height: 720,
-            alt: "Shourya Sinha 3D Portfolio Environment",
+            alt: "Indrajeet Kumar (Shourya Sinha) 3D Portfolio Environment",
           },
         ],
       },
@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   } catch {
     return {
-      title: "Shourya Sinha (Kumar Indrajeet) — 3D Developer Portfolio & IT Solutions",
+      title: "Indrajeet Kumar (Shourya Sinha) — 3D Developer Portfolio & IT Solutions",
       description:
         "Full Stack Developer, Mobile App Engineer, AI & Cybersecurity Enthusiast.",
       icons: { icon: "/favicon.svg" },
@@ -98,8 +98,8 @@ export default async function RootLayout({
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Shourya Sinha",
-    alternateName: "Kumar Indrajeet",
+    name: "Indrajeet Kumar",
+    alternateName: "Shourya Sinha",
     jobTitle: "Full Stack Developer, Mobile App Engineer & Cybersecurity Researcher",
     url: siteUrl,
     email: settings?.contactEmail || "Krindrajeet.c@gmail.com",
@@ -122,7 +122,7 @@ export default async function RootLayout({
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: "Shourya Sinha — Digital Engineering & IT Solutions",
+    name: "Indrajeet Kumar (Shourya Sinha) — Digital Engineering & IT Solutions",
     url: siteUrl,
     areaServed: "Global",
     serviceType: [

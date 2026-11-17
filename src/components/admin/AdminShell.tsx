@@ -109,7 +109,7 @@ export function AdminShell({
       <aside className="hidden w-72 shrink-0 flex-col border-r border-white/10 bg-[#090b10] lg:flex">
         <div className="border-b border-white/10 p-5">
           <Link href="/" className="font-display text-sm font-bold tracking-[0.14em] text-white">
-            SHOURYA SINHA CMS
+            INDRAJEET KUMAR CMS
           </Link>
           <div className="mt-1 text-[11px] text-cyan-300">Portfolio + ATS Resume Control</div>
         </div>
@@ -166,7 +166,7 @@ export function AdminShell({
 
       {/* Mobile Header */}
       <div className="flex items-center justify-between border-b border-white/10 bg-[#090b10] px-4 py-3 lg:hidden">
-        <span className="font-display text-sm font-bold text-white">SHOURYA CMS</span>
+        <span className="font-display text-sm font-bold text-white">INDRAJEET KUMAR CMS</span>
         <button
           type="button"
           onClick={() => setDrawerOpen((v) => !v)}

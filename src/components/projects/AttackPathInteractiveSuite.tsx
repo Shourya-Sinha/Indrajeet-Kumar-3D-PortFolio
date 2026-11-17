@@ -142,10 +142,10 @@ spec:
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`flex flex-col items-start gap-1.5 rounded-xl border px-3 py-2.5 text-left text-xs font-medium transition ${
+              className={`flex flex-col items-start gap-1.5 rounded-xl border px-3 py-2.5 text-left text-xs font-medium transition duration-300 ${
                 active
-                  ? "border-cyan-400/60 bg-cyan-400/15 text-white shadow-[0_0_20px_rgba(0,229,255,0.18)]"
-                  : "border-white/10 bg-white/[0.03] text-slate-400 hover:border-white/25 hover:text-slate-200"
+                  ? "-translate-y-0.5 border-cyan-400/60 bg-cyan-400/15 text-white shadow-[0_4px_0_rgba(0,229,255,0.22),0_0_20px_rgba(0,229,255,0.18)]"
+                  : "border-white/10 bg-white/[0.03] text-slate-400 hover:-translate-y-0.5 hover:border-cyan-400/35 hover:text-slate-200"
               }`}
             >
               <Icon className={`h-4 w-4 ${active ? "text-cyan-300" : "text-slate-400"}`} />
@@ -156,7 +156,10 @@ spec:
       </div>
 
       {/* Active Demo Viewport */}
-      <div className="rounded-2xl border border-white/10 bg-[#07090e] p-4 sm:p-6">
+      <div
+        key={activeTab}
+        className="animate-3d-flip rounded-2xl border border-white/15 bg-[#07090e] p-4 shadow-[0_14px_36px_rgba(0,0,0,0.65)] sm:p-6"
+      >
         {activeTab === "graph" && (
           <div className="grid gap-6 lg:grid-cols-12">
             <div className="lg:col-span-7">

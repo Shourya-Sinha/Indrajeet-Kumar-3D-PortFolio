@@ -12,6 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import type { ResumeProfileType, ResumeVersionDoc } from "@/lib/db/types";
+import { TiltCard3D } from "@/components/ui/TiltCard3D";
 import { CertificateReaderModal } from "@/components/certificates/CertificateReaderModal";
 
 const PROFILE_LABELS: Record<ResumeProfileType, string> = {
@@ -71,7 +72,8 @@ export function PublicResumeCenterClient({
   return (
     <div className="space-y-10">
       {/* Role Profile Selector */}
-      <div className="glass-panel rounded-3xl p-5 sm:p-7">
+      <TiltCard3D maxTilt={4} depth={14}>
+        <div className="glass-panel glass-panel-hover preserve-3d rounded-3xl p-5 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-300">
@@ -79,7 +81,7 @@ export function PublicResumeCenterClient({
               Single-Source Verified ATS Resume Center
             </div>
             <h1 className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">
-              Professional Resume — Shourya Sinha (Kumar Indrajeet)
+              Professional Resume — Indrajeet Kumar (Shourya Sinha)
             </h1>
             <p className="mt-1 text-sm text-slate-300">
               ATS-structured PDF (selectable embedded typography) and editable DOCX generated from verified professional records.
@@ -173,13 +175,15 @@ export function PublicResumeCenterClient({
             </a>
           </div>
         </div>
-      </div>
+        </div>
+      </TiltCard3D>
 
       {/* Main Split: ATS Document Preview + Version History Archive */}
       <div className="grid gap-8 lg:grid-cols-12">
         {/* Clean Single-Column ATS Document Preview */}
         <div className="lg:col-span-8">
-          <div className="rounded-2xl border border-slate-200/20 bg-white p-6 text-slate-900 shadow-2xl sm:p-10">
+          <TiltCard3D maxTilt={2.5} depth={12} spotlight={false}>
+            <div className="rounded-2xl border border-slate-200/20 bg-white p-6 text-slate-900 shadow-[0_14px_0_-4px_rgba(148,163,184,0.28),0_28px_70px_rgba(0,0,0,0.75)] sm:p-10">
             <div className="text-center">
               <h2 className="font-sans text-2xl font-bold tracking-tight text-slate-950">
                 {snap.profile.fullName}
@@ -296,12 +300,14 @@ export function PublicResumeCenterClient({
                 ))}
               </ul>
             </div>
-          </div>
+            </div>
+          </TiltCard3D>
         </div>
 
         {/* Version History & ATS Verification Sidebar */}
         <div className="space-y-6 lg:col-span-4">
-          <div className="glass-panel rounded-3xl p-6">
+          <TiltCard3D maxTilt={7} depth={18}>
+            <div className="glass-panel glass-panel-hover preserve-3d rounded-3xl p-6">
             <div className="flex items-center gap-2 text-sm font-bold text-white">
               <Layers className="h-4 w-4 text-cyan-300" />
               Version Release History
@@ -368,36 +374,39 @@ export function PublicResumeCenterClient({
                 );
               })}
             </div>
-          </div>
+            </div>
+          </TiltCard3D>
 
           {/* ATS Structure Verification Summary */}
-          <div className="glass-panel rounded-3xl p-6">
-            <div className="flex items-center gap-2 text-sm font-bold text-white">
-              <FileCode2 className="h-4 w-4 text-cyan-300" />
-              PDF Structure Verification
-            </div>
-            <p className="mt-1 text-xs text-slate-400">
-              Measurable document quality checks on {activeVersion.version}:
-            </p>
-            <div className="mt-3 space-y-2">
-              {(activeVersion.validationReport?.checks || []).slice(0, 6).map((chk) => (
-                <div
-                  key={chk.code}
-                  className="flex items-start gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-xs"
-                >
-                  <CheckCircle2
-                    className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${
-                      chk.passed ? "text-emerald-400" : "text-amber-400"
-                    }`}
-                  />
-                  <div>
-                    <div className="font-semibold text-slate-200">{chk.label}</div>
-                    <div className="text-[11px] text-slate-400">{chk.detail}</div>
+          <TiltCard3D maxTilt={7} depth={18}>
+            <div className="glass-panel glass-panel-hover preserve-3d rounded-3xl p-6">
+              <div className="flex items-center gap-2 text-sm font-bold text-white">
+                <FileCode2 className="h-4 w-4 text-cyan-300" />
+                PDF Structure Verification
+              </div>
+              <p className="mt-1 text-xs text-slate-400">
+                Measurable document quality checks on {activeVersion.version}:
+              </p>
+              <div className="mt-3 space-y-2">
+                {(activeVersion.validationReport?.checks || []).slice(0, 6).map((chk) => (
+                  <div
+                    key={chk.code}
+                    className="flex items-start gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-xs"
+                  >
+                    <CheckCircle2
+                      className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${
+                        chk.passed ? "text-emerald-400" : "text-amber-400"
+                      }`}
+                    />
+                    <div>
+                      <div className="font-semibold text-slate-200">{chk.label}</div>
+                      <div className="text-[11px] text-slate-400">{chk.detail}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          </TiltCard3D>
         </div>
       </div>
 

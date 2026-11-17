@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Layers } from "lucide-react";
 import type { ServiceDoc } from "@/lib/db/types";
+import { TiltCard3D } from "@/components/ui/TiltCard3D";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -69,7 +70,7 @@ export function ServicesPinnedSection({
   };
 
   return (
-    <section ref={containerRef} id="services" className="relative bg-[#050608]">
+    <section ref={containerRef} id="services" className="perspective-1600 relative bg-[#050608]/90">
       <div
         ref={pinTargetRef}
         className="relative flex min-h-screen flex-col justify-center overflow-hidden border-y border-white/10 py-14 lg:py-8"
@@ -83,10 +84,10 @@ export function ServicesPinnedSection({
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-300">
                 <Layers className="h-3.5 w-3.5" />
-                Immersive Services Architecture · {services.length} Capabilities
+                Immersive 3D Solutions Stage · {services.length} Capabilities
               </div>
               <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                Pinned Scroll Solutions Stage
+                Pinned Scroll 3D Solutions Stage
               </h2>
             </div>
 
@@ -118,104 +119,111 @@ export function ServicesPinnedSection({
           {/* Progress Rail */}
           <div className="mb-7 h-1 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 transition-all duration-300"
+              className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 shadow-[0_0_12px_rgba(0,229,255,0.65)] transition-all duration-300"
               style={{ width: `${((activeIndex + 1) / services.length) * 100}%` }}
             />
           </div>
 
-          {/* Split Storytelling Stage */}
+          {/* Split Storytelling 3D Stage */}
           <div className="grid items-center gap-8 lg:grid-cols-12">
-            {/* Left: Narrative + Deliverables + Tech + Actions */}
+            {/* Left: Interactive 3D Narrative Card */}
             <div className="space-y-5 lg:col-span-6">
-              <div className="glass-panel rounded-3xl p-6 sm:p-8">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-3xl font-bold text-cyan-400/90 sm:text-4xl">
-                    {active.numberLabel}
-                  </span>
-                  <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-slate-300">
-                    {active.sceneThemeKey}
-                  </span>
-                </div>
-
-                <h3 className="mt-3 font-display text-2xl font-bold text-white sm:text-4xl">
-                  {active.title}
-                </h3>
-                <p className="mt-2 text-sm font-medium text-cyan-200/90 sm:text-base">
-                  {active.shortTagline}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                  {active.description}
-                </p>
-
-                {/* Deliverables */}
-                <div className="mt-5 grid gap-2 sm:grid-cols-2">
-                  {active.deliverables.map((del) => (
-                    <div
-                      key={del}
-                      className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-slate-200"
-                    >
-                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-cyan-300" />
-                      <span>{del}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Technology Labels */}
-                <div className="mt-5 flex flex-wrap gap-1.5">
-                  {active.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-[11px] font-medium text-cyan-200"
-                    >
-                      {tech}
+              <TiltCard3D maxTilt={8} depth={20}>
+                <div
+                  key={active._id}
+                  className="glass-panel glass-panel-hover preserve-3d animate-3d-flip rounded-3xl p-6 sm:p-8"
+                >
+                  <div className="depth-z-2 flex items-center justify-between">
+                    <span className="font-mono text-3xl font-bold text-cyan-400/90 sm:text-4xl">
+                      {active.numberLabel}
                     </span>
-                  ))}
-                </div>
+                    <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-slate-300">
+                      {active.sceneThemeKey}
+                    </span>
+                  </div>
 
-                <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
-                  <button
-                    type="button"
-                    onClick={() => handleRequest(active.title)}
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-2.5 text-xs font-bold text-slate-950 shadow-[0_0_25px_rgba(0,229,255,0.25)] transition hover:brightness-110"
-                  >
-                    {active.ctaLabel || "Request Service"}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setExpandedDetail((v) => !v)}
-                    className="rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-semibold text-slate-200 hover:border-cyan-400/40"
-                  >
-                    {expandedDetail ? "Hide Directory" : "Learn More / All 17"}
-                  </button>
+                  <h3 className="depth-z-2 mt-3 font-display text-2xl font-bold text-white sm:text-4xl">
+                    {active.title}
+                  </h3>
+                  <p className="depth-z-1 mt-2 text-sm font-medium text-cyan-200/90 sm:text-base">
+                    {active.shortTagline}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-300">
+                    {active.description}
+                  </p>
+
+                  {/* Deliverables */}
+                  <div className="depth-z-1 mt-5 grid gap-2 sm:grid-cols-2">
+                    {active.deliverables.map((del) => (
+                      <div
+                        key={del}
+                        className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-slate-200"
+                      >
+                        <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-cyan-300" />
+                        <span>{del}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Technology Labels */}
+                  <div className="depth-z-1 mt-5 flex flex-wrap gap-1.5">
+                    {active.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-[11px] font-medium text-cyan-200"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="depth-z-2 mt-6 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
+                    <button
+                      type="button"
+                      onClick={() => handleRequest(active.title)}
+                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-2.5 text-xs font-bold text-slate-950 shadow-[0_4px_0_rgba(14,116,144,0.7),0_0_25px_rgba(0,229,255,0.28)] transition hover:-translate-y-0.5 hover:brightness-110"
+                    >
+                      {active.ctaLabel || "Request Service"}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExpandedDetail((v) => !v)}
+                      className="rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-semibold text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-400/40"
+                    >
+                      {expandedDetail ? "Hide Directory" : "Learn More / All 17"}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </TiltCard3D>
             </div>
 
-            {/* Right: Synchronized 3D Visual + R3F Stage */}
+            {/* Right: Synchronized 3D Visual + Interactive Tilt Stage */}
             <div className="space-y-4 lg:col-span-6">
-              <div className="glass-panel relative h-[320px] overflow-hidden rounded-3xl sm:h-[400px]">
-                <img
-                  key={active.imageUrl}
-                  src={active.imageUrl}
-                  alt={active.imageAlt}
-                  className="absolute inset-0 h-full w-full object-cover opacity-35 transition-opacity duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050608] via-transparent to-[#050608]/50" />
-                <div className="relative z-10 h-full w-full">
-                  <ServicesStageCanvas
-                    activeIndex={activeIndex}
-                    progressRef={progressRef}
-                    fallbackImageUrl={active.imageUrl}
+              <TiltCard3D maxTilt={9} depth={22} glowAccent="violet">
+                <div className="glass-panel glass-panel-hover preserve-3d relative h-[320px] overflow-hidden rounded-3xl sm:h-[400px]">
+                  <img
+                    key={active.imageUrl}
+                    src={active.imageUrl}
+                    alt={active.imageAlt}
+                    className="absolute inset-0 h-full w-full object-cover opacity-35 transition-opacity duration-500"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050608] via-transparent to-[#050608]/50" />
+                  <div className="relative z-10 h-full w-full">
+                    <ServicesStageCanvas
+                      activeIndex={activeIndex}
+                      progressRef={progressRef}
+                      fallbackImageUrl={active.imageUrl}
+                    />
+                  </div>
+                  <div className="depth-z-2 pointer-events-none absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between text-xs text-slate-300">
+                    <span className="rounded-full border border-white/15 bg-black/65 px-3 py-1 backdrop-blur-md">
+                      Scroll or select step to morph 3D environment
+                    </span>
+                    <span className="font-mono text-cyan-300">{active.numberLabel}</span>
+                  </div>
                 </div>
-                <div className="pointer-events-none absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between text-xs text-slate-300">
-                  <span className="rounded-full border border-white/15 bg-black/60 px-3 py-1 backdrop-blur-md">
-                    Scroll or select step to morph 3D environment
-                  </span>
-                  <span className="font-mono text-cyan-300">{active.numberLabel}</span>
-                </div>
-              </div>
+              </TiltCard3D>
 
               {/* Quick Step Selector Matrix */}
               <div className="flex gap-1.5 overflow-x-auto pb-1">
@@ -227,8 +235,8 @@ export function ServicesPinnedSection({
                     title={srv.title}
                     className={`shrink-0 rounded-xl border px-3 py-1.5 text-xs font-medium transition ${
                       idx === activeIndex
-                        ? "border-cyan-400 bg-cyan-400/20 text-white"
-                        : "border-white/10 bg-white/[0.03] text-slate-400 hover:text-white"
+                        ? "border-cyan-400 bg-cyan-400/20 text-white shadow-[0_0_16px_rgba(0,229,255,0.22)]"
+                        : "border-white/10 bg-white/[0.03] text-slate-400 hover:border-cyan-400/35 hover:text-white"
                     }`}
                   >
                     {srv.numberLabel} · {srv.title.split(" ")[0]}
@@ -239,7 +247,7 @@ export function ServicesPinnedSection({
           </div>
 
           {expandedDetail && (
-            <div className="mt-6 grid max-h-52 gap-2 overflow-y-auto rounded-2xl border border-white/10 bg-[#0b0e14] p-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="animate-3d-flip mt-6 grid max-h-52 gap-2 overflow-y-auto rounded-2xl border border-white/10 bg-[#0b0e14] p-4 sm:grid-cols-3 lg:grid-cols-4">
               {services.map((srv, idx) => (
                 <button
                   key={srv._id}

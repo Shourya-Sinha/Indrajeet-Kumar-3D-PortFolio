@@ -32,14 +32,19 @@ export function MagneticButton({
     const el = ref.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const rect = el.getBoundingClientRect();
-    const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.18;
-    const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.18;
-    el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    const dx = px * 16;
+    const dy = py * 12;
+    const rx = (-py * 16).toFixed(2);
+    const ry = (px * 18).toFixed(2);
+    el.style.transform = `perspective(700px) translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 12px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
 
   const handleLeave = () => {
     if (ref.current) {
-      ref.current.style.transform = "translate3d(0, 0, 0)";
+      ref.current.style.transform =
+        "perspective(700px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)";
     }
   };
 
@@ -48,11 +53,11 @@ export function MagneticButton({
 
   const variants = {
     primary:
-      "bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-slate-950 shadow-[0_0_28px_rgba(0,229,255,0.3)] hover:shadow-[0_0_40px_rgba(0,229,255,0.52)]",
+      "bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-slate-950 shadow-[0_6px_0_rgba(14,116,144,0.65),0_12px_32px_rgba(0,229,255,0.34)] hover:shadow-[0_8px_0_rgba(14,116,144,0.8),0_16px_44px_rgba(0,229,255,0.52)]",
     secondary:
       "glass-panel text-slate-100 hover:border-cyan-400/50 hover:text-cyan-200",
     ghost:
-      "border border-white/15 bg-white/[0.03] text-slate-200 hover:bg-white/[0.08] hover:border-white/30",
+      "border border-white/15 bg-white/[0.04] text-slate-200 shadow-[0_4px_0_rgba(15,23,42,0.7)] hover:bg-white/[0.09] hover:border-cyan-400/40",
   };
 
   const merged = `${baseStyles} ${variants[variant]} ${className}`;

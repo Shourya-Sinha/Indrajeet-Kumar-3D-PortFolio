@@ -101,7 +101,7 @@ export async function sendInquiryNotification(
     });
 
     await transporter.sendMail({
-      from: `"Shourya Sinha Portfolio" <${config.fromEmail}>`,
+      from: `"Indrajeet Kumar (Shourya Sinha) Portfolio" <${config.fromEmail}>`,
       to: config.recipient,
       replyTo: payload.email,
       subject,
