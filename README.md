@@ -2,6 +2,9 @@
 Complete 3D Portfolio With Attractive CMS Admin Dashboard
 # PROJECT: SHOURYA SINHA — IMMERSIVE 3D DEVELOPER PORTFOLIO & IT SOLUTIONS PLATFORM
 
+> **Quick Start:** `cp .env.example .env && npm install && npm run seed && npm run dev`
+> See **[Section 16: Implemented Features, Commands, Testing & Deployment Guide](#16-implemented-platform-features-architecture--operations)** for the complete live feature inventory, all `npm`/Docker commands, environment variables, and verification instructions.
+
 ## 1. Project Objective
 
 Build a production-grade, fully responsive, premium immersive 3D personal portfolio and freelance IT services website for Shourya Sinha (Kumar Indrajeet).
@@ -590,3 +593,135 @@ The project is complete only when:
 - Production deployment documentation exists.
 
 The final result must feel like an original premium digital technology experience, not a generic portfolio template.
+
+---
+
+## 16. Implemented Platform Features, Architecture & Operations
+
+Designed, Developed & Maintained by Shourya Sinha (Kumar Indrajeet).
+
+### What This Platform Includes
+
+1. **Interactive 3D Public Portfolio (`/`) & Project Case Studies (`/projects/[slug]`)**
+   - **5 Dedicated R3F WebGL2 Canvases**: Hero liquid-chrome sphere & holographic rings (`HeroCanvas`), Expertise particle crystal field (`ExpertiseCanvas`), Services dynamic 3D stage (`ServicesStageCanvas`), Interactive 3D Attack Graph (`AttackGraph3DCanvas`), and Contact Glass Portal (`ContactPortalCanvas`), each paired with reduced-motion and low-spec fallbacks.
+   - **10 Dynamic CMS-Backed Public Sections**:
+     - **Hero**: Animated roles, headline, availability status, Hire Me / Explore Projects / Download Resume CTAs.
+     - **About**: Verified 5+ years full-stack background & MCA Cybersecurity (9.4/10 GPA) profile.
+     - **Technical Expertise**: 54 verified skills across 10 categories with proficiency bars & experience tags.
+     - **Pinned Scroll Services (Xiaomi-style)**: GSAP ScrollTrigger pinned storytelling stage covering 17 ordered services with mobile touch switcher.
+     - **Experience Timeline**: 4 verified career milestones synced with the resume baseline.
+     - **Featured Projects (8 Projects)**: Led by `Intelligent-Graph-Based-Attack-Path-Discovery` v2.5 featuring the **8-Tab Interactive Research Simulator** (`AttackPathInteractiveSuite`: Attack Graph Explorer, 121-Engine Registry, Dijkstra Critical Path, FAIR 4000x Monte Carlo Risk, 20 Auto-Remediation Engine, Autonomous BOT Scheduler, Threat Hunting, and Zero-Trust Policy Generator), alongside `JARVIS Local AI Assistant (Ollama & Hugging Face GGUF)`, `PortPilot`, `StreamNova`, `Telegram Blockchain Transactions`, `Maa Bhawani Construction`, `BetMaster`, and `Adversarial Attack & Self-Improving URL Classifier`.
+     - **Certifications Gallery**: 3D gallery & `pdfjs-dist` interactive PDF/image certificate modal (`CertificateReaderModal`).
+     - **Education**: Verified academic timeline (`Amrita Vishwa Vidyapeetham` MCA Cybersecurity 9.4/10, `Sunrise University` B.Sc. IT).
+     - **GitHub Activity Showcase**: 15-minute cached GitHub API integration (`Shourya-Sinha`) with verified local repository fallback.
+     - **Freelance Services & Contact Portal**: 4 engagement tiers + validated inquiry submission API with rate limiting and Resend/SMTP notifications.
+   - **Technical SEO**: Dynamic metadata, canonicals, `sitemap.xml`, `robots.txt`, and `Person` + `ProfessionalService` JSON-LD schema.
+
+2. **Public ATS Resume Download Center (`/resume`) & Automated Resume Engine**
+   - Preserves `Kumar_Indrajeet_Resume_Ananta_Updated.pdf` byte-for-byte as immutable **`v1.0`**.
+   - Single MongoDB/local database source of truth (`professionalProfiles`, `experiences`, `projects`, `skills`, `education`, `certifications`) syncing both the portfolio and generated resumes.
+   - **6 Role-Specific Profiles**: `general`, `fullstack`, `mobile`, `python-ai`, `cybersecurity`, and `it-support`.
+   - **Dual Format Export**: Selectable-text single-column ATS **PDF** (`pdfkit` + embedded Roboto TTFs) and editable **DOCX** (`docx`).
+   - **Real Structural Validation (`pdf-parse`)**: Checks text extractability, single-column reading order, standard headings, contact integrity, font embedding, and page budget without fabricating universal ATS scores.
+   - **Immutable Versioning & Non-Destructive Rollback**: SHA-256 change detection, `ADDED`/`MODIFIED`/`REMOVED` diffs, manual approval default with optional automatic publish toggle, and rollback that creates a new semantic release while retaining all prior PDFs/DOCXs.
+
+3. **Protected 22-Page Admin CMS (`/admin/*`)**
+   - `/admin/login`, `/admin` (Dashboard), `/admin/resume-management` (ATS Resume Control Center)
+   - Content Editors: `/admin/hero`, `/admin/about`, `/admin/experience`, `/admin/services`, `/admin/projects`, `/admin/certifications`, `/admin/education`, `/admin/skills`, `/admin/freelance`, `/admin/media`, `/admin/contact`, `/admin/inquiries`, `/admin/seo`, `/admin/navigation`, `/admin/theme`, `/admin/footer`, `/admin/settings`, `/admin/users` (RBAC), `/admin/audit-logs`.
+
+### Verified Platform Metrics
+
+| Metric | Verified Value |
+| --- | --- |
+| Framework & Runtime | Next.js `15.5.12` (App Router), React `19.1.0`, TypeScript, Tailwind CSS `3.4` |
+| 3D & Motion Stack | Three.js `0.176`, React Three Fiber `9.8`, Drei `10.7`, GSAP `3.13` + ScrollTrigger, Lenis `1.3`, Framer Motion `12.4` |
+| Total Built Routes | `61` routes (`3` public pages, `22` admin pages, `34` public & admin API routes, `sitemap.xml`, `robots.txt`) |
+| 3D Interactive Canvases | `5` WebGL2 R3F canvases with procedural reflections & low-spec/reduced-motion fallbacks |
+| Curated 3D Visual Assets | `22/22` bespoke `1280×720` WebP visuals (`public/assets/visuals/*.webp`, `0` placeholders remaining) |
+| Database Collections | `23` Mongoose-validated schemas (`16` CMS/system + `7` ATS resume engine collections) |
+| Seeded Portfolio Data | `17` pinned services, `8` featured projects, `4` experiences, `54` skills (`10` categories), `2` degrees, `2` certifications, `4` freelance tiers |
+| Automated ATS Profiles | `6` profiles (`general`, `fullstack`, `mobile`, `python-ai`, `cybersecurity`, `it-support`) with PDF & DOCX exports |
+| Verification Status | `npm run lint` (`0` warnings/errors), `npm run typecheck` (`0` errors), `npm run test` (`12/12` passing), `npm run build` (`0` errors) |
+
+### Architecture & Persistence Reference
+
+- Detailed architecture blueprint: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- **Dual Persistence Driver** (`src/lib/db/connection.ts`, `src/lib/db/repository.ts`): Uses MongoDB + Mongoose when `MONGODB_URI` is configured; automatically falls back to schema-validated atomic JSON + `mingo` query persistence under `storage/db/` when running locally without a MongoDB daemon (`DB_MODE=auto` or `local`).
+
+### Environment Configuration (`.env.example`)
+
+Copy `.env.example` to `.env` before running or deploying:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Purpose | Default / Behavior |
+| --- | --- | --- |
+| `MONGODB_URI` | MongoDB / Atlas connection string | Optional (falls back to `storage/db/` when blank) |
+| `DB_MODE` | `auto`, `mongodb`, or `local` | `auto` |
+| `NEXT_PUBLIC_SITE_URL` | Canonical public URL for SEO & sitemap | `http://localhost:3000` |
+| `AUTH_SECRET` | HMAC secret for admin JWT cookies | Set 32+ hex chars in production |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME` | Seeded `super_admin` credentials | `Krindrajeet.c@gmail.com` / override password before production |
+| `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | Signed Cloudinary CDN media uploads | Optional (falls back to `/api/media/files/...` local store) |
+| `RESEND_API_KEY` or `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | Contact inquiry email delivery | Optional (logs inquiries in DB when unset) |
+| `ADMIN_NOTIFICATION_EMAIL` | Destination inbox for client inquiries | `Krindrajeet.c@gmail.com` |
+| `GITHUB_USERNAME` / `GITHUB_TOKEN` | GitHub repository feed & rate limit boost | `Shourya-Sinha` |
+
+### Complete Commands Reference (Install, Seed, Run, Stop, Lint & Test)
+
+| Task | Command | Notes |
+| --- | --- | --- |
+| Install Dependencies | `npm install` | Installs Node dependencies |
+| Seed Database & Baseline Resumes | `npm run seed` | Runs `npx tsx src/lib/db/cli-seed.ts`; idempotent ground-truth seed + `v1.0` PDF/DOCX build |
+| Reset & Re-Seed Local Data | `rm -rf storage/db && npm run seed` | Rebuilds clean local JSON database & resumes |
+| Start Dev Server (`0.0.0.0:3000`) | `npm run dev` | Hot-reloading Next.js dev server |
+| Build for Production | `npm run build` | Compiles optimized SSR + client bundles (`next build`) |
+| Start Production Server (`0.0.0.0:3000`) | `npm run start` | Serves built `.next/` bundle (`next start -H 0.0.0.0 -p 3000`) |
+| Run in Background (Logs to File) | `nohup npm run start > server.log 2>&1 &` | Starts production server detached |
+| Stop Server | `Ctrl+C` (foreground) or `pkill -f "next-server"` | Stops running Next.js server cleanly |
+| ESLint Code Check | `npm run lint` | Runs `next lint` (`0` warnings/errors) |
+| TypeScript Check | `npm run typecheck` | Runs `tsc --noEmit` (`0` errors) |
+| Automated Integration & Security Tests | `npm run test` | Runs Vitest (`tests/resume-and-cms.test.ts` — 12 acceptance & RBAC/CSRF scenarios) |
+| Full Pre-Deploy Verification | `npm run verify` | Runs `typecheck` + `test` + `build` sequentially |
+
+### Docker & MongoDB Deployment
+
+Run the containerized Next.js production server alongside MongoDB 7 with persistent volumes (`mongo_data`, `resume_storage`):
+
+```bash
+# Build and start containers in background
+docker compose up -d --build
+
+# View running status and live server logs
+docker compose ps
+docker compose logs -f web
+
+# Stop containers cleanly (preserves database and resume volumes)
+docker compose down
+
+# Stop and remove containers + volumes (clean reset)
+docker compose down -v
+```
+
+### API Route Groups Summary
+
+- **Public Endpoints**:
+  - `GET /api/health` — DB mode, Cloudinary status, and timestamp
+  - `GET /api/public/portfolio` — Complete hydrated public portfolio payload
+  - `GET /api/public/github` — 15-minute cached GitHub profile & repository showcase
+  - `POST /api/public/contact` — Validated rate-limited client inquiry intake
+  - `GET /api/public/resume/latest`, `/versions`, `/version/[version]`, `/download/[version]/[format]` — Public published resume API & PDF/DOCX downloads
+- **Protected Admin Endpoints** (`/api/admin/**` — HTTP-only JWT + RBAC + CSRF):
+  - `/api/admin/auth/{login,logout,me,csrf}`
+  - `/api/admin/dashboard`, `/api/admin/users`, `/api/admin/users/[id]`, `/api/admin/audit-logs`
+  - `/api/admin/content/[collection]` & `/api/admin/content/[collection]/[id]` (CRUD + reorder)
+  - `/api/admin/media`, `/api/admin/media/[id]`, `/api/admin/media/sign`
+  - `/api/admin/resume/{current,generate,preview,publish,rollback,versions,compare,change-summary,validation,templates,settings}`
+
+### Backup, Recovery & Security Controls
+
+- **Database Backup**: Use `mongodump --uri="$MONGODB_URI"` for MongoDB deployments, or archive `storage/db/*.json` when running in local persistence mode.
+- **Immutable Resume Releases**: Back up `storage/resumes/` (`original/original_resume_v1.0.pdf` and `generated/<profile>/<version>/`).
+- **Security Hardening**: Bcrypt password hashing, HTTP-only `SameSite=Lax` JWT session cookies (`Secure` auto-enabled on HTTPS), role-based authorization (`super_admin`, `editor`, `viewer`), double-submit CSRF token validation, login & contact rate limiting, MIME + magic-byte upload checks, and chronological audit logging.
+
