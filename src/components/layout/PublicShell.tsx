@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FuturisticPreloader } from "@/components/ui/FuturisticPreloader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,6 +67,7 @@ export function PublicShell({
 
   return (
     <div className="relative min-h-screen bg-ambient-grid">
+      <FuturisticPreloader />
       <AmbientSpaceCanvas />
       <div className="relative z-10">{children}</div>
     </div>

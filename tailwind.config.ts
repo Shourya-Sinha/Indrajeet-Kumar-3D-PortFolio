@@ -9,18 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void: "#050608",
-        graphite: "#101318",
-        carbon: "#161B24",
+        void: "#040508",
+        graphite: "#0e121a",
+        carbon: "#151b26",
         cyanGlow: "#00E5FF",
-        electricBlue: "#2979FF",
-        violetAccent: "#8B5CF6",
+        electricBlue: "#2563EB",
+        violetAccent: "#9333EA",
+        rosePulse: "#F43F5E",
+        champagneGold: "#F59E0B",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Space Grotesk", "Sora", "system-ui", "sans-serif"],
-        heading: ["Sora", "Space Grotesk", "system-ui", "sans-serif"],
-        jakarta: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
+        sans: ["Outfit", "Inter", "system-ui", "sans-serif"],
+        display: ["Syne", "Orbitron", "system-ui", "sans-serif"],
+        cyber: ["Orbitron", "Syne", "system-ui", "sans-serif"],
+        heading: ["Syne", "Outfit", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+        jakarta: ["Outfit", "Plus Jakarta Sans", "system-ui", "sans-serif"],
       },
       backgroundImage: {
         "chrome-gradient":

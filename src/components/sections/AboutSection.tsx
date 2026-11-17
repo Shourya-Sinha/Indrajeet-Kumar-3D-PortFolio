@@ -30,7 +30,7 @@ export function AboutSection({
           {/* 3D Depth Visual Monolith */}
           <div data-3d-card className="lg:col-span-5">
             <TiltCard3D maxTilt={11} depth={24} floatIdle glowAccent="cyan">
-              <div className="glass-panel glass-panel-hover preserve-3d relative rounded-3xl p-3">
+              <div className="holo-border-glow glass-panel glass-panel-hover preserve-3d relative rounded-3xl p-3">
                 <div className="relative aspect-[16/11] overflow-hidden rounded-2xl bg-[#07090d]">
                   <img
                     src={about.profileImageUrl}

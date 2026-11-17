@@ -16,9 +16,9 @@ export function Footer({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
-            <div className="font-display text-lg font-bold tracking-[0.14em] text-white">
+            <div className="font-cyber text-base font-bold tracking-[0.16em] text-white sm:text-lg">
               {settings.brandName}{" "}
-              <span className="text-sm font-normal text-slate-400">
+              <span className="font-mono text-sm font-normal text-slate-400">
                 ({settings.alternateName})
               </span>
             </div>

@@ -69,35 +69,40 @@ function ArchitecturalGyroCore({
 
   return (
     <>
-      <ambientLight intensity={0.45} />
+      <ambientLight intensity={0.4} />
       <directionalLight position={[5, 6, 5]} intensity={2.6} color="#ffffff" />
-      <pointLight position={[-4, 2, 4]} intensity={3.2} color="#00e5ff" distance={15} />
-      <pointLight position={[4, -2, -3]} intensity={2.6} color="#8b5cf6" distance={15} />
+      <pointLight position={[-4.5, 2.5, 4]} intensity={3.8} color="#00e5ff" distance={16} />
+      <pointLight position={[4.2, -2.5, 3.2]} intensity={3.2} color="#a855f7" distance={16} />
+      <pointLight position={[0, -1.8, -3.5]} intensity={3.0} color="#f43f5e" distance={14} />
+      <pointLight position={[-2.5, -3.5, 2.5]} intensity={2.6} color="#2563eb" distance={14} />
 
       <group ref={assemblyRef} position={[0, 0, 0]}>
         <Float speed={1.2} rotationIntensity={0.12} floatIntensity={0.22}>
-          {/* 1. Sculpted Metallic Chrome Torus-Knot Core */}
+          {/* 1. Sculpted Glossy Obsidian-Iridescent Torus-Knot Core (Matches 3D Studio Palette) */}
           <mesh ref={coreKnotRef}>
-            <torusKnotGeometry args={[0.88, 0.24, 180, 32, 2, 3]} />
+            <torusKnotGeometry args={[0.92, 0.26, 200, 36, 2, 3]} />
             <meshPhysicalMaterial
-              color="#e6effb"
-              metalness={0.96}
-              roughness={0.08}
+              color="#141e33"
+              metalness={0.95}
+              roughness={0.06}
               clearcoat={1}
-              clearcoatRoughness={0.05}
-              envMapIntensity={2.2}
+              clearcoatRoughness={0.04}
+              iridescence={1}
+              iridescenceIOR={1.8}
+              iridescenceThicknessRange={[180, 720]}
+              envMapIntensity={2.6}
             />
           </mesh>
 
-          {/* 2. Glowing Cyan Energy Core Center */}
+          {/* 2. Glowing Cyan-Crimson Reactor Core Center */}
           <mesh ref={innerReactorRef}>
             <octahedronGeometry args={[0.42, 0]} />
             <meshStandardMaterial
               color="#7deeff"
               emissive="#00e5ff"
-              emissiveIntensity={2.2}
+              emissiveIntensity={2.4}
               metalness={0.5}
-              roughness={0.15}
+              roughness={0.12}
             />
           </mesh>
 
@@ -107,23 +112,24 @@ function ArchitecturalGyroCore({
             <meshStandardMaterial
               color="#38bdf8"
               emissive="#00e5ff"
-              emissiveIntensity={0.6}
+              emissiveIntensity={0.65}
               wireframe
               transparent
-              opacity={0.26}
+              opacity={0.28}
             />
           </mesh>
 
-          {/* 4. Outer Precision Gimbal Ring + Orbital Satellite Nodes */}
+          {/* 4. Outer Iridescent Cyan Gimbal Ring + Orbital Satellite Nodes */}
           <group ref={ringOuterRef} rotation={[Math.PI * 0.34, 0.25, 0]}>
             <mesh>
-              <torusGeometry args={[2.08, 0.032, 20, 128]} />
-              <meshStandardMaterial
-                color="#00e5ff"
+              <torusGeometry args={[2.08, 0.036, 20, 128]} />
+              <meshPhysicalMaterial
+                color="#38bdf8"
                 emissive="#00e5ff"
-                emissiveIntensity={1.55}
-                metalness={0.85}
-                roughness={0.18}
+                emissiveIntensity={1.6}
+                metalness={0.9}
+                roughness={0.14}
+                iridescence={0.8}
               />
             </mesh>
             {satelliteAngles.map((angle, idx) => (
@@ -131,41 +137,50 @@ function ArchitecturalGyroCore({
                 key={idx}
                 position={[Math.cos(angle) * 2.08, Math.sin(angle) * 2.08, 0]}
               >
-                <octahedronGeometry args={[0.11, 0]} />
+                <octahedronGeometry args={[0.115, 0]} />
                 <meshStandardMaterial
                   color="#ffffff"
-                  emissive={idx % 2 === 0 ? "#00e5ff" : "#8b5cf6"}
-                  emissiveIntensity={1.8}
+                  emissive={
+                    idx === 0
+                      ? "#00e5ff"
+                      : idx === 1
+                        ? "#a855f7"
+                        : idx === 2
+                          ? "#f43f5e"
+                          : "#2563eb"
+                  }
+                  emissiveIntensity={2.1}
                   metalness={0.9}
-                  roughness={0.15}
+                  roughness={0.14}
                 />
               </mesh>
             ))}
           </group>
 
-          {/* 5. Middle Violet Gimbal Ring */}
+          {/* 5. Middle Violet-Magenta Gimbal Ring */}
           <group ref={ringMidRef} rotation={[-Math.PI * 0.28, Math.PI * 0.28, 0]}>
             <mesh>
-              <torusGeometry args={[1.82, 0.024, 18, 128]} />
+              <torusGeometry args={[1.82, 0.026, 18, 128]} />
               <meshStandardMaterial
-                color="#a78bfa"
-                emissive="#8b5cf6"
-                emissiveIntensity={1.5}
+                color="#c084fc"
+                emissive="#a855f7"
+                emissiveIntensity={1.65}
                 metalness={0.88}
-                roughness={0.18}
+                roughness={0.16}
               />
             </mesh>
           </group>
 
-          {/* 6. Inner Brushed Titanium Gimbal Track */}
+          {/* 6. Inner Rose-Crimson / Brushed Titanium Gimbal Track */}
           <group ref={ringInnerRef} rotation={[Math.PI * 0.5, -0.35, 0.2]}>
             <mesh>
-              <torusGeometry args={[1.64, 0.018, 16, 120]} />
-              <meshPhysicalMaterial
-                color="#cbd5e1"
-                metalness={0.95}
-                roughness={0.12}
-                clearcoat={1}
+              <torusGeometry args={[1.64, 0.02, 16, 120]} />
+              <meshStandardMaterial
+                color="#fb7185"
+                emissive="#f43f5e"
+                emissiveIntensity={1.35}
+                metalness={0.92}
+                roughness={0.14}
               />
             </mesh>
           </group>
